@@ -2,7 +2,7 @@
 
 Protocol documentation and reference code for Linux-native T2 Touch ID adoption.
 
-This project shares the account-creation and persistence pieces behind setting up
+This project shares the research, account-creation, and persistence pieces behind setting up
 Touch ID from Linux without importing a macOS user account or fingerprint data.
 It is for developers who want to bring that capability to another project.
 
@@ -33,8 +33,10 @@ request length and a round-trip result without contacting hardware.
 | [Activation storage](src/t2_activation_bundle.py) | Store the creation-time secret and saved keybag together, with recovery after an interrupted file write. |
 
 Read the [integration guide](docs/integration.md) for the adoption sequence and
-what your implementation needs to supply. [Credits](CREDITS.md) describe the
-research foundation.
+what your implementation needs to supply. The [SEP research reference](docs/research/README.md)
+explains internal services, AKS/ACM authorization, xART storage, and the fingerprint
+lifecycle, with wire layouts and a machine-readable findings index.
+[Credits](CREDITS.md) describe the research foundation.
 
 ## Community use
 

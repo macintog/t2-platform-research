@@ -19,3 +19,8 @@ files are included here.
 Protocol layouts were recovered through analysis of Apple software and checked
 against observations on T2 hardware. The reference modules express those findings as request encoders, decoders, and
 local storage.
+
+The [research reference](docs/research/README.md) describes the SEP structure and
+protocol findings in original prose under MIT. Its
+[artifact and tool credits](docs/research/artifacts-and-method.md) identify the
+firmware builds and analysis tools used.

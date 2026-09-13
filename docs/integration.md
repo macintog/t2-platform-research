@@ -8,6 +8,9 @@ These notes describe the sequence used in the T2 proof of concept. The modules
 here implement the request bodies and local storage. Your application supplies
 the Secure Enclave transport and the rest of the biometric workflow.
 
+The [research reference](research/README.md) covers the internal SEP services,
+wire formats, and experiments behind this sequence.
+
 ## Create and preserve the identity
 
 1. Create an Apple Credential Manager (ACM) context for the selected user, install
