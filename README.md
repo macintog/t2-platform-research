@@ -9,7 +9,7 @@ does not communicate with the fingerprint reader, run fprintd, modify PAM, or
 enable fingerprint login by itself.
 
 For the installable Omarchy proof of concept, use
-[t2touch](https://github.com/jmurth1234/t2touch).
+[t2touch](https://github.com/macintog/t2touch).
 
 ## Run the reference
 
