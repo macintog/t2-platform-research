@@ -1,8 +1,9 @@
 # Integrating native T2 adoption
 
 The useful discovery is how to retain the credential needed to activate a
-Linux-created T2 identity after a restart. Creating and saving a keybag alone is
-not enough: the working sequence also preserves a 16-byte creation-time secret.
+Linux-created T2 identity through a fresh transport owner. Creating and saving
+a keybag alone is not enough: the working sequence also preserves a 16-byte
+creation-time secret.
 
 These notes describe the sequence used in the T2 proof of concept. The modules
 here implement the request bodies and local storage. Your application supplies
@@ -33,11 +34,13 @@ check lengths, versions, alignment, and trailing bytes. The codecs leave field
 selection and transport to the caller; the example's synthetic values are for
 learning the format.
 
-## Activate after a restart
+## Activate through a fresh owner
 
 Load the saved keybag and establish its live handle and user alias through your
-transport. Then create a fresh ACM input context and install the saved 16-byte
-secret as its type-5 credential data.
+transport after the create/export owner has closed and released its temporary
+handle. This can happen immediately in the same running system; it does not
+require a reboot. Then create a fresh ACM input context and install the saved
+16-byte secret as its type-5 credential data.
 
 Obtain the new input context's external form. Operation `0x21` with option `0x100`
 uses that live reference to extract the saved secret and verify the identity.
@@ -72,6 +75,46 @@ they do not encrypt the secret. Treat the stored secret as a credential.
 The store can complete partial local writes and reconcile an already-published
 generation. Your application still needs to reconcile any interrupted hardware
 operation before deciding whether another request is appropriate.
+
+Publishing this directory is not proof that provisioning, live-handle cleanup,
+or first-fingerprint persistence has completed. Track those milestones
+explicitly. A fresh exclusive owner must reload and verify the exact saved
+identity before enabling it; neither a newer mapping schema nor the presence of
+a bundle means the hardware transaction is finished. Do not repeat identity
+creation to complete a host-side publication or cleanup step.
+
+## Keep account authority separate from fingerprint state
+
+The first enrollment's fresh-owner verification establishes native account
+authority. Later additions and deletions change the current fingerprint set,
+while the original account evidence remains valid. Requiring the first
+fingerprint to remain enrolled would prevent further additions after deleting it.
+
+Before a mutation, reconcile the current user/master Catacomb generation, live
+identity inventory, and completed mutation history against the same account,
+keybag, and mapping. An addition must produce exactly the prior set plus its new
+identity, and match that new identity specifically. Do not hardcode a one-print
+baseline. An unfinished mutation must be reconciled before another starts.
+
+Expose exactly five neutral slots, `Finger 1` through `Finger 5`, backed by
+private identity UUIDs. Deleting one identity must not renumber any survivor;
+the next successful enrollment takes the lowest vacant slot. A slot label stays
+with its identity while that identity exists, but does not establish which
+physical finger the person used.
+
+The [integration follow-up](research/integration-followup.md) details the
+installed evidence, deletion recovery, and client lifecycle. These responsibilities
+belong to your adapter; the three reference modules here do not implement them.
+
+## Preserve authentication fallback
+
+Biometric readiness and the fprint service must converge whenever the product
+starts or upgrades, but they must not become the only way to authenticate. Keep
+a tested password path and a recoverable PAM configuration. The completed
+integration proved these independently: one real sudo transaction accepted an
+enrolled fingerprint, while another transaction with fprintd unavailable timed
+out the biometric path and accepted the Linux password. Preserve rollback
+copies when installing any PAM change.
 
 ## Connect the remaining pieces
 
