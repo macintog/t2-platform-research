@@ -46,8 +46,8 @@ installation. A different resident transport is rejected before installed-state
 changes. These kernel boundaries are distinct from enrollment completion.
 
 The current source comparison is pinned to t2touch
-`01ef002bcae2aa257f968071e7bcde5b626d3858` and t2touch-mini
-`f28146248e4e9c78b07e60e18302adc2aa3fce40`. All three mini modules match the
+`e67aa469f559f07a4174ab218da3807358bc43b6` and t2touch-mini
+`bb4942e07331cb0264d628fc264dc0fdbe1c88e4`. All three mini modules match the
 t2touch implementations after excluding license comments and module docstrings.
 The [evidence index](integration-evidence.json) retains the original checkpoint
 hashes and limitations; it is not a current capability checklist.
@@ -75,9 +75,11 @@ to the same account UUID, keybag UUID, and mapping generation. Then require:
 The third-fingerprint correction and a later addition after deleting `finger-3`
 were exercised live. The separate correction allowing additions after the
 original first fingerprint is absent has offline regression coverage and a live
-preflight with the retained survivor set, but the records do not include an
-actual delete-`finger-1`-then-enroll sequence. Do not present that narrower case
-as hardware-proven.
+preflight with the retained survivor set, but those historical records did not include deleting the original
+`finger-1` while retaining others and then enrolling again. A subsequent
+operator test confirmed deletion of the sole `finger-1`, forward recovery of its
+interrupted persistence, and successful re-enrollment from empty. That confirms
+the empty-inventory case; it does not fill the distinct survivor-set test gap.
 
 ## Names survive deletion
 
@@ -126,8 +128,9 @@ The discovery path also stopped repeating a full endpoint scan on every pass.
 A private cached endpoint is only a routing hint: every connection still needs
 a fresh RemoteXPC handshake and a fresh advertised biometric service record.
 It supplies neither account authority nor a previous authentication verdict.
-This optimization has offline checks; no measured latency improvement is
-claimed by this review.
+This endpoint-discovery optimization has offline checks; no isolated latency
+improvement is claimed for it. The later measured improvement below concerns
+redundant inventory work in verification, not endpoint discovery.
 
 The completed startup and PAM controls add a distinct product boundary: the
 readiness and fprint services must converge unattended after reboot, while PAM
@@ -135,6 +138,35 @@ must retain an independently usable password path when the biometric service is
 unavailable. Success of one transaction is not evidence that fallback works;
 the recorded controls exercised those cases separately and retained rollback
 copies of the managed PAM files.
+
+## Graphical integration and measured readiness
+
+Later t2touch validation on the same MacBookPro16,1 covered the actual Omarchy
+lock screen and PolicyKit dialog. An initial lock authenticated and then crashed
+the compositor when a fallback framebuffer display was re-enabled. A dynamic
+native-DRM selector removed that phantom output, after which actual unlock
+returned to a stable desktop. It respects explicit selections and discovers
+connected displays regardless of integrated/discrete GPU ownership. Fourteen
+layout fixtures do not establish physical qualification on other machines.
+
+Visible preparation and placement messages corrected misleading icon-only
+feedback. The operator reported first-ready-touch success on the final lock test;
+the final permission-dialog test succeeded but still took a couple of tries.
+A subsequent real reboot checked display and service startup, not another touch
+trial. Final selector guards were evaluated afterward and produced the same
+selection as the booted session; that exact final script was not reboot-tested.
+
+An alternating baseline/candidate experiment used fresh D-Bus clients for
+list → claim → verify-start → reader-armed → stop → release, without touching.
+Reader readiness fell from 7.322/7.311 seconds to 3.778 seconds, approximately
+48%. This measures preparation, not complete login latency. The implementation
+reuses one caller’s presentation projection once and shares only running
+inventory reads; private native authority and post-match checks remain fresh.
+
+The full repository's
+[validation report](https://github.com/macintog/t2touch/blob/main/docs/GRAPHICAL_AUTH_VALIDATION.md)
+records timing and scope. Mini supplies the three unchanged protocol/storage
+modules only; it includes no fprintd, PAM, QML, or GPU-routing implementation.
 
 ## Scope retained by mini
 
@@ -149,6 +181,7 @@ The review did not originally establish multi-user operation, delete-all or
 last-fingerprint deletion, deep-sleep recovery, persistence across a macOS boot,
 a dedicated live adaptive-update control, or release-level support across
 additional hardware. Subsequent full integration hardware-proved final-identity
-forward recovery to a clean empty inventory; the other limits remain.
+forward recovery to a clean empty inventory and successful re-enrollment from
+that empty state; the other limits remain.
 Those limits do not weaken the completed greenfield lifecycle on the reference
 machine.

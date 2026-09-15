@@ -44,7 +44,11 @@ The installed t2touch product subsequently demonstrated named final-fingerprint
 deletion through a clean empty inventory, immediate use after enrollment,
 graphical PolicyKit, the Omarchy lock screen, and matching-transport userspace
 reinstall. Omarchy installation and the applesmc prerequisite are packaged in
-t2touch; mini remains a protocol reference.
+t2touch; mini remains a protocol reference. Later graphical work added visible
+readiness feedback, corrected a display failure on unlock, and measured reduced
+reader preparation time. See the
+[graphical follow-up](integration-followup.md#graphical-integration-and-measured-readiness)
+for the successful lock/permission tests and their remaining limits.
 
 The Mac continues to run Apple's bridgeOS and SEP firmware. Multi-user
 operation, batch deletion, deep-sleep recovery, cross-macOS persistence, and
