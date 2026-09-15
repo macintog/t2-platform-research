@@ -185,3 +185,19 @@ forward recovery to a clean empty inventory and successful re-enrollment from
 that empty state; the other limits remain.
 Those limits do not weaken the completed greenfield lifecycle on the reference
 machine.
+
+## Fresh-install follow-up — September 14, 2026
+
+The full integration's subsequent fresh-install test required a physical SMC
+reset after boot-policy result 3 persisted across ordinary Linux restart and
+poweroff. A separate driver bug counted initial provisioning against the later
+replacement-create attempt. Correcting that distinction allowed the operator's
+normal installer to reach mapping-ready and start fprintd. Mini's three modules
+were unchanged; this defect was in the full integration's kernel admission.
+
+The old desktop session then timed out waiting for an unseen PolicyKit prompt
+while still exposing a phantom framebuffer output. Installed desktop changes
+require a new login. After the session changed to one display, an actual lock
+emitted its reader-placement PAM message, authenticated successfully, and
+returned to the same running compositor. A nonfunctional preview is excluded
+from that evidence. These remain single-reference-machine integration results.

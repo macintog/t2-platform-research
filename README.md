@@ -47,7 +47,8 @@ corrected lock/display recovery and readiness feedback, and reduced measured
 reader preparation from about 7.3 to 3.8 seconds. Permission-dialog touches still
 needed retries; this is not a universal login-latency or hardware-support claim.
 The [integration follow-up](docs/research/integration-followup.md#graphical-integration-and-measured-readiness)
-records the evidence and limits.
+records the evidence and limits, including subsequent fresh-install recovery
+and a successful actual fingerprint unlock after the desktop session changed.
 
 Those results validate the protocol represented here, but they do not turn
 t2touch-mini into an end-user driver. An adopter must still provide the kernel
