@@ -42,7 +42,12 @@ The full t2touch integration has demonstrated Linux-owned authority creation,
 first and additional enrollment, any-enrolled-finger matching, neutral
 `Finger N` naming, reconciled named deletion through a clean empty inventory,
 standard fprintd clients, sudo, graphical PolicyKit, the Omarchy lock screen,
-and password fallback on its MacBookPro16,1 reference system.
+and password fallback on its MacBookPro16,1 reference system. Later validation
+corrected lock/display recovery and readiness feedback, and reduced measured
+reader preparation from about 7.3 to 3.8 seconds. Permission-dialog touches still
+needed retries; this is not a universal login-latency or hardware-support claim.
+The [integration follow-up](docs/research/integration-followup.md#graphical-integration-and-measured-readiness)
+records the evidence and limits.
 
 Those results validate the protocol represented here, but they do not turn
 t2touch-mini into an end-user driver. An adopter must still provide the kernel
