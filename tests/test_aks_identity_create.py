@@ -119,5 +119,59 @@ class AKSIdentityCreateCodecTests(unittest.TestCase):
             )
 
 
+class AKSIdentityCreateV4Tests(unittest.TestCase):
+    # Fixed independently observed request body for the bridgeOS 23P2048 layout.
+    wire = bytes.fromhex(
+        "04000000 0807060504030201 00410000 ffffffff"
+        "10000000 0102030405060708090a0b0c0d0e0f10"
+        "00000000 10000000 000102030405060708090a0b0c0d0e0f"
+        "00000000 0600000000000000"
+    )
+
+    def value(self):
+        return codec.AKSIdentityCreateV4Request(
+            session=0x0102030405060708,
+            internal_flags=0x4100,
+            effective_bag_handle=-1,
+            item1=bytes(range(1, 17)),
+            item2=b"",
+            account_uuid=bytes(range(16)),
+            item3=b"",
+            original_flags=6,
+        )
+
+    def test_fixed_wire_fixture_round_trips(self):
+        self.assertEqual(self.value().encode(), self.wire)
+        self.assertEqual(codec.AKSIdentityCreateV4Request.decode(self.wire), self.value())
+
+    def test_v4_and_v5_requests_are_not_interchangeable(self):
+        with self.assertRaisesRegex(codec.AKSIdentityCreateCodecError, "version"):
+            codec.AKSIdentityCreateV5Request.decode(self.wire)
+        with self.assertRaisesRegex(codec.AKSIdentityCreateCodecError, "version"):
+            codec.AKSIdentityCreateV4Request.decode(request().encode())
+        version_only_rewrite = struct.pack("<I", 4) + request().encode()[4:]
+        with self.assertRaisesRegex(codec.AKSIdentityCreateCodecError, "trailing"):
+            codec.AKSIdentityCreateV4Request.decode(version_only_rewrite)
+
+    def test_every_truncation_is_rejected(self):
+        for length in range(len(self.wire)):
+            with self.subTest(length=length):
+                with self.assertRaises(codec.AKSIdentityCreateCodecError):
+                    codec.AKSIdentityCreateV4Request.decode(self.wire[:length])
+
+    def test_response_version_selects_the_decoder(self):
+        wire = bytes.fromhex("04000000 2a000000 03000000 61626300")
+        self.assertEqual(
+            codec.AKSIdentityCreateV4Response.decode(wire),
+            codec.AKSIdentityCreateV4Response(live_handle=42, kek_material=b"abc"),
+        )
+        self.assertEqual(
+            codec.AKSIdentityCreateV4Response.inspect_mutable(bytearray(wire)),
+            (42, 3),
+        )
+        with self.assertRaisesRegex(codec.AKSIdentityCreateCodecError, "version"):
+            codec.AKSIdentityCreateV5Response.decode(wire)
+
+
 if __name__ == "__main__":
     unittest.main()

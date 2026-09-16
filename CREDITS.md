@@ -10,6 +10,10 @@ work and are offered here under MIT. They cover identity request encoding and
 activation-secret persistence. Their names are retained to make comparison with
 the research implementation easier.
 
+Toni Bergholm contributed the bridgeOS `23P2048` identity-create-v4 protocol
+finding to t2touch. This repository credits that discovery while expressing the
+wire-format facts in its own MIT-licensed reference implementation.
+
 [T1Bridge](https://github.com/standardagents/t1bridge/tree/7003b8d9f791) informed the
 retained-secret lifecycle and enrollment transaction design. Its referenced
 [license](https://github.com/standardagents/t1bridge/blob/7003b8d9f791/LICENSE) is MIT.

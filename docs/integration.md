@@ -19,8 +19,11 @@ wire formats, and experiments behind this sequence.
 2. Save those exact 16 bytes before sending the identity-create request. In the
    tested creation path, they become the input from which the Secure Enclave
    derives the identity verifier.
-3. Send AppleKeyStore (AKS) operation `0x01`, version `5`, with original flags `6`
-   and the creation-time external form in `item1`.
+3. Send AppleKeyStore (AKS) operation `0x01` with the creation-time external
+   form in `item1` and original flags `6`. Explicitly select the recovered
+   identity-create layout required by the target firmware: v4 was observed
+   with bridgeOS `23P2048`, while v5 was observed with `23P6068`. Changing only
+   the version word is invalid because the scalar tail differs.
 4. Use the returned live handle to export the saved keybag with operation `0x02`.
 5. Commit the saved keybag and creation-time secret together. Keep the account
    UUID and keybag UUID associated with this generation.
@@ -28,7 +31,8 @@ wire formats, and experiments behind this sequence.
 The extra material returned by operation `0x01` is not the saved keybag. The
 reloadable object comes from the separate export request.
 
-`AKSIdentityCreateV5Request` represents the creation body.
+`AKSIdentityCreateV4Request` and `AKSIdentityCreateV5Request` represent the two
+known creation bodies.
 `AKSIdentityCopyKeybagV1Request` represents the export body. Their response classes
 check lengths, versions, alignment, and trailing bytes. The codecs leave field
 selection and transport to the caller; the example's synthetic values are for
@@ -102,19 +106,17 @@ the next successful enrollment takes the lowest vacant slot. A slot label stays
 with its identity while that identity exists, but does not establish which
 physical finger the person used.
 
-The [integration follow-up](research/integration-followup.md) details the
-installed evidence, deletion recovery, and client lifecycle. These responsibilities
+The [integration contracts](research/integration-contracts.md) describe
+deletion recovery and client lifecycle. These responsibilities
 belong to your adapter; the three reference modules here do not implement them.
 
 ## Preserve authentication fallback
 
 Biometric readiness and the fprint service must converge whenever the product
 starts or upgrades, but they must not become the only way to authenticate. Keep
-a tested password path and a recoverable PAM configuration. The completed
-integration proved these independently: one real sudo transaction accepted an
-enrolled fingerprint, while another transaction with fprintd unavailable timed
-out the biometric path and accepted the Linux password. Preserve rollback
-copies when installing any PAM change.
+a tested password path and a recoverable PAM configuration. Test fingerprint
+success separately from password fallback while the fingerprint service is
+unavailable. Preserve rollback copies when installing any PAM change.
 
 ## Connect the remaining pieces
 

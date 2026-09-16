@@ -42,13 +42,13 @@ The full t2touch integration has demonstrated Linux-owned authority creation,
 first and additional enrollment, any-enrolled-finger matching, neutral
 `Finger N` naming, reconciled named deletion through a clean empty inventory,
 standard fprintd clients, sudo, graphical PolicyKit, the Omarchy lock screen,
-and password fallback on its MacBookPro16,1 reference system. Later validation
-corrected lock/display recovery and readiness feedback, and reduced measured
-reader preparation from about 7.3 to 3.8 seconds. Permission-dialog touches still
-needed retries; this is not a universal login-latency or hardware-support claim.
-The [integration follow-up](docs/research/integration-followup.md#graphical-integration-and-measured-readiness)
-records the evidence and limits, including subsequent fresh-install recovery
-and a successful actual fingerprint unlock after the desktop session changed.
+and password fallback on its MacBookPro16,1 reference system. Hardware and
+desktop coverage remain limited; the [integration contracts](docs/research/integration-contracts.md)
+describe the responsibilities an adopter must implement.
+The current t2touch release also selects the recovered AKS identity-create v4
+layout explicitly for MacBookPro16,2 systems running bridgeOS `23P2048`; mini
+now includes both the v4 and v5 wire-format references without claiming broader
+end-to-end hardware validation.
 
 Those results validate the protocol represented here, but they do not turn
 t2touch-mini into an end-user driver. An adopter must still provide the kernel
