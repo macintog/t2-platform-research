@@ -1,53 +1,48 @@
-# Credits
+# Credits and provenance
 
-The T2 research began with
-[jmurth1234/t2-touchid-linux](https://github.com/jmurth1234/t2-touchid-linux), whose
-transport and biometric implementation provided the foundation for the working
-proof of concept. That project remains under its own GPL license.
+T2 platform research is an original research collection maintained by
+[macintog](https://github.com/macintog), with Codex used for analysis,
+implementation, and review. It combines firmware and host-software analysis,
+protocol reconstruction, Linux source comparisons, and configuration-specific
+hardware observations. The explanations, catalogs, and reference modules use
+the repository's [MIT license](LICENSE).
 
-The modules in this repository were written during the subsequent native-adoption
-work and are offered here under MIT. They cover identity request encoding and
-activation-secret persistence. Their names are retained to make comparison with
-the research implementation easier.
+## Contributed findings and observations
 
-Toni Bergholm contributed the bridgeOS `23P2048` identity-create-v4 protocol
-finding to t2touch. This repository credits that discovery while expressing the
-wire-format facts in its own MIT-licensed reference implementation.
+Toni Bergholm contributed the bridgeOS `23P2048` identity-create-v4 finding and
+the J214K hardware qualification recorded in the
+[version-4 reference](docs/sep/aks-create-v4-j214k.md#evidence-boundaries-and-reported-hardware-qualification).
+The reference distinguishes that report from retained offline analysis and
+does not extend it to untested lifecycle or graphical behavior.
 
-[T1Bridge](https://github.com/standardagents/t1bridge/tree/7003b8d9f791) informed the
-retained-secret lifecycle and enrollment transaction design. Its referenced
-[license](https://github.com/standardagents/t1bridge/blob/7003b8d9f791/LICENSE) is MIT.
-The T2 sequence uses different credential details and transport; no T1Bridge source
-files are included here.
+Reports from t2linux contributors and other hardware users supply observations
+for the configurations cited in individual chapters. Those reports retain
+their attribution and uncertainty; a reported symptom is not automatically a
+confirmed cause.
 
-Protocol layouts were recovered through analysis of Apple software and checked
-against observations on T2 hardware. The reference modules express those findings as request encoders, decoders, and
-local storage.
+## Implementations and sources used in the research
 
-The [research reference](docs/research/README.md) describes the SEP structure and
-protocol findings in original prose under MIT. Its
-[artifact and tool credits](docs/research/artifacts-and-method.md) identify the
-firmware builds and analysis tools used.
+| Source | Contribution to this work |
+| --- | --- |
+| [jmurth1234/t2-touchid-linux](https://github.com/jmurth1234/t2-touchid-linux) | Transport and biometric implementation used in the early working proof of concept. Subsequent SEP mechanisms and reference modules are documented here with their own evidence. |
+| [T1Bridge](https://github.com/standardagents/t1bridge/tree/7003b8d9f791) | A comparator for retained-secret lifecycle and enrollment transactions; T2 credentials and transport differ. No T1Bridge source files are included. |
+| [t2linux](https://github.com/t2linux) | Kernel and distribution context, hardware guidance, and attributed field reports. |
+| [deqrocks/t2bce](https://github.com/deqrocks/t2bce) | Linux BCE, virtual USB, and bridge-audio implementations compared with recovered firmware contracts. |
+| [Apple's published XNU](https://github.com/apple-oss-distributions/xnu) | Public message definitions and platform-action ordering comparators, distinguished from build-matched binary evidence. |
+| [The Apple Wiki](https://theapplewiki.com/wiki/T2) | Secondary mappings between firmware board identities and Mac model names. |
 
-## Platform research
+Other narrowly used implementations are cited at the relevant finding. Exact
+revisions, addresses, hashes, and evidence limits belong with the analysis,
+rather than in a general list of acknowledgments.
 
-The platform references were assembled by macintog using Codex, including
-signed-artifact analysis and Linux experiments. They extend the protocol work
-with board inventories and power-management analysis.
+## Analysis tools and artifacts
 
-- [t2linux](https://github.com/t2linux) supplies kernel/distribution context,
-  hardware guidance, and the field reports cited in the platform chapters.
-- [deqrocks/t2bce](https://github.com/deqrocks/t2bce) supplies the Linux BCE,
-  virtual USB, and audio implementation compared here.
-- [Apple's published XNU](https://github.com/apple-oss-distributions/xnu)
-  supplies message definitions and platform-action ordering code.
-- [The Apple Wiki](https://theapplewiki.com/wiki/T2) supplies the secondary
-  mapping from firmware identities to Mac model names.
-- [ipsw](https://github.com/blacktop/ipsw),
-  [radare2](https://github.com/radareorg/radare2),
-  [7-Zip](https://www.7-zip.org/), and
-  [ACPICA](https://github.com/acpica/acpica) supported image inspection,
-  disassembly, APFS extraction, and ACPI interpretation.
+Artifact acquisition and analysis used OpenCorePkg's macrecovery, ipsw,
+DyldExtractor, sepsplit-rs, radare2, 7-Zip, and ACPICA. Their roles and recorded
+versions are documented in [SEP artifacts and method](docs/method/sep-artifacts.md#research-credits)
+and [platform artifacts and method](docs/method/platform-artifacts.md).
 
-External reports establish observations for their stated configurations.
-Referenced projects and artifacts retain their own licenses and attribution.
+Apple firmware and host software are subjects of the analysis. Firmware
+payloads are not included. Referenced software, reports, and artifacts retain
+their own licenses and attribution; this collection's MIT license applies to
+its original material and does not relicense those sources.

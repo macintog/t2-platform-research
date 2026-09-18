@@ -1,0 +1,1941 @@
+{
+  "schema_version": 1,
+  "purpose": "Discovery map for the research collection; evidence and scope remain authoritative in catalog/findings.json and linked chapters. Relations describe qualified research edges, not a complete hardware graph.",
+  "scope": {
+    "bridgeos_build": "23P6068",
+    "host_comparator": "25G83",
+    "runtime": "Configuration-specific observations; see catalog/findings.json scope.",
+    "coverage_date": "2026-09-18"
+  },
+  "topics": [
+    {
+      "id": "sep",
+      "title": "SEP services and AKS identity",
+      "aliases": [
+        "Secure Enclave",
+        "AKS",
+        "AppleKeyStore",
+        "ACM",
+        "AppleCredentialManager",
+        "106b:1802",
+        "keybag",
+        "create-v4",
+        "create-v5",
+        "J214K"
+      ],
+      "linux_interfaces": [
+        "t2_sep_transport"
+      ],
+      "firmware_components": [
+        "SEP",
+        "sks",
+        "AppleKeyStore",
+        "ACM",
+        "AppleSEPManager",
+        "AppleSEPCredentialManager",
+        "AppleSEPKeyStore",
+        "AppleSEPGenericTransfer",
+        "AppleAuthCP",
+        "CoreTrust",
+        "AMFI"
+      ],
+      "function": "Account creation, authorization, and secure service transport",
+      "references": [
+        "docs/sep/services-and-mailboxes.md",
+        "docs/sep/aks-identity-and-authorization.md",
+        "docs/sep/aks-create-v4-j214k.md",
+        "docs/platform/pci-services-and-dma.md#compatibility-domains"
+      ],
+      "finding_ids": [
+        "sep-routes",
+        "aks-framing",
+        "create-export",
+        "create-v4-j214k",
+        "activation-input",
+        "authorization-lifetime",
+        "keybag-derivation",
+        "primary-inventory",
+        "sep-quiesce"
+      ]
+    },
+    {
+      "id": "fingerprint",
+      "title": "Touch ID and fingerprint persistence",
+      "aliases": [
+        "biometric",
+        "fprintd",
+        "Catacomb",
+        "BioLockout",
+        "enrollment",
+        "PAM"
+      ],
+      "linux_interfaces": [
+        "fprintd",
+        "PAM"
+      ],
+      "firmware_components": [
+        "BiometricKit",
+        "SEP",
+        "AppleBiometricSensor",
+        "AppleMesaSEPDriver",
+        "IOBiometricFamily",
+        "AppleBiometricServices"
+      ],
+      "function": "Enrollment, matching, deletion, and cross-boot restoration",
+      "references": [
+        "docs/sep/fingerprint-lifecycle.md",
+        "docs/sep/fingerprint-integration.md",
+        "docs/sep/linux-integration.md",
+        "docs/platform/pci-services-and-dma.md#compatibility-domains"
+      ],
+      "finding_ids": [
+        "first-catacomb",
+        "restore-order",
+        "native-lifecycle",
+        "mutable-identity-authority",
+        "durable-identity-names",
+        "delete-forward-recovery",
+        "direct-client-lifecycle"
+      ]
+    },
+    {
+      "id": "storage",
+      "title": "ANS2 host storage and SEP persistence",
+      "aliases": [
+        "NVMe",
+        "ANS",
+        "ANS2",
+        "xART",
+        "gigalocker",
+        "106b:2005",
+        "106b:2002",
+        "APFS",
+        "PFK"
+      ],
+      "linux_interfaces": [
+        "nvme"
+      ],
+      "firmware_components": [
+        "AppleANS",
+        "xART",
+        "embedded NVMe",
+        "IONVMeFamily",
+        "AppleANS2OOB",
+        "AppleNANDConfigAccess",
+        "AppleBCENORFlashDeviceEP",
+        "AppleEffaceableStorage",
+        "APFS"
+      ],
+      "function": "Root storage and persistent secure state",
+      "references": [
+        "docs/storage/sep-persistence-and-nvme.md",
+        "docs/power/sleep-wake-and-hibernate.md#ans-ordinary-sleep-and-cancellation",
+        "docs/platform/pci-services-and-dma.md#compatibility-domains"
+      ],
+      "finding_ids": [
+        "ans-sleep",
+        "storage-boundary",
+        "xart-record-path",
+        "xart-command8",
+        "embedded-storage"
+      ]
+    },
+    {
+      "id": "boot",
+      "title": "Boot policy, firmware updates, and recovery",
+      "aliases": [
+        "EFI",
+        "iBoot",
+        "LLB",
+        "iBEC",
+        "iBSS",
+        "MacEFI",
+        "DFU",
+        "restored_update",
+        "panicmedic",
+        "UKI",
+        "Limine",
+        "LUKS"
+      ],
+      "linux_interfaces": [
+        "boot loader",
+        "kernel updates"
+      ],
+      "firmware_components": [
+        "iBoot",
+        "MacEFI",
+        "restored_update",
+        "seputil",
+        "AppleFirmwareUpdateKext",
+        "AppleEmbeddedPUPConfigMgmt",
+        "FirmwareService",
+        "MacEFIManager"
+      ],
+      "function": "Booting Linux and understanding recovery transactions",
+      "references": [
+        "docs/boot/iboot-firmware-update-and-recovery.md",
+        "docs/boot/linux-boot-and-updates.md",
+        "docs/platform/pci-services-and-dma.md#compatibility-domains"
+      ],
+      "finding_ids": [
+        "efi-boot-state",
+        "iboot-failure-policy",
+        "firmware-update-outer-order",
+        "kernel-updates"
+      ]
+    },
+    {
+      "id": "graphics",
+      "title": "Dual-GPU graphics and gmux",
+      "aliases": [
+        "i915",
+        "amdgpu",
+        "apple-gmux",
+        "AppleMuxControl2",
+        "VFCT",
+        "VBT",
+        "EDID",
+        "eDP",
+        "HDA",
+        "PEG",
+        "force_igd",
+        "APP7777"
+      ],
+      "linux_interfaces": [
+        "DRM",
+        "i915",
+        "amdgpu",
+        "apple-gmux"
+      ],
+      "firmware_components": [
+        "GMUXDriver",
+        "CoffeelakeGraphics",
+        "AppleMuxControl2",
+        "ACPI"
+      ],
+      "function": "Panel routing, display initialization, GPU power, and switching",
+      "references": [
+        "docs/graphics/gmux-panel-and-vfct.md",
+        "docs/graphics/acpi-and-gpu-ownership.md"
+      ],
+      "finding_ids": [
+        "host-acpi",
+        "app7777",
+        "mux-policy",
+        "gpu-policy",
+        "graphics-duplicate-panel",
+        "j152-panel-sequencer",
+        "gmux-route-contract",
+        "vfct-connector-topology"
+      ]
+    },
+    {
+      "id": "bce",
+      "title": "BCE transport, VHCI, and DMA reset",
+      "aliases": [
+        "t2bce",
+        "BCE",
+        "VHCI",
+        "virtual USB",
+        "DART",
+        "PERST",
+        "106b:1801",
+        "IOBufferCopyController"
+      ],
+      "linux_interfaces": [
+        "t2bce_core",
+        "t2bce_vhci"
+      ],
+      "firmware_components": [
+        "BCE",
+        "AppleT8015DART",
+        "AppleEmbeddedPCIeUpLinkMgmt",
+        "AppleEmbeddedPCIE",
+        "AppleT8010PCIe",
+        "AppleSART",
+        "IODARTFamily",
+        "AppleUSBVHCICommon",
+        "AppleUSBVHCICommonBCE",
+        "AppleUSBVHCIFirmware",
+        "AppleUSBVHCIFirmwareBCE"
+      ],
+      "function": "Internal peripheral transport and coordinated recovery",
+      "references": [
+        "docs/platform/pci-services-and-dma.md#reset-and-queue-boundaries",
+        "docs/power/sleep-wake-and-hibernate.md#bce-state-preservation",
+        "docs/platform/pci-services-and-dma.md#compatibility-domains"
+      ],
+      "finding_ids": [
+        "bce-state",
+        "vhci-exception",
+        "bce-platform-fabric",
+        "dart-reset-boundary",
+        "vhci-epoch-gap",
+        "late-completion"
+      ]
+    },
+    {
+      "id": "power",
+      "title": "Sleep, wake, and hibernate",
+      "aliases": [
+        "suspend",
+        "resume",
+        "S3",
+        "S4",
+        "s2idle",
+        "hibernate",
+        "PMGR",
+        "RTBuddy"
+      ],
+      "linux_interfaces": [
+        "PCI power management",
+        "system sleep"
+      ],
+      "firmware_components": [
+        "PMGR",
+        "RTBuddy",
+        "AppleSSM",
+        "ApplePMGR",
+        "AppleT8012PMGR",
+        "AppleARMPMU",
+        "AppleT8010CLPC",
+        "AppleT8010SOCTuner",
+        "AppleDialogPMU",
+        "AppleD2449PMU",
+        "AppleA7IOP",
+        "AppleT8012SmartIO"
+      ],
+      "function": "System power transitions and wake attribution",
+      "references": [
+        "docs/power/sleep-wake-and-hibernate.md",
+        "docs/power/linux-suspend-observations.md",
+        "docs/platform/pci-services-and-dma.md#compatibility-domains"
+      ],
+      "finding_ids": [
+        "pmgr-records",
+        "inactive-control",
+        "hibernate-chain"
+      ]
+    },
+    {
+      "id": "smc",
+      "title": "SMC, charging, and thermal control",
+      "aliases": [
+        "AppleSMC",
+        "applesmc",
+        "BCLM",
+        "USB-PD",
+        "battery",
+        "hwmon",
+        "fan",
+        "thermal",
+        "NMSN",
+        "MBSE"
+      ],
+      "linux_interfaces": [
+        "applesmc",
+        "hwmon",
+        "ACPI Smart Battery"
+      ],
+      "firmware_components": [
+        "AppleSMC",
+        "AppleSSM",
+        "AppleSmartBattery",
+        "IOAccessory"
+      ],
+      "function": "Battery state, charge policy, temperatures, fans, and notifications",
+      "references": [
+        "docs/smc/notifications-and-usb-pd.md",
+        "docs/power/sleep-wake-and-hibernate.md#wake-aggregation-and-smc"
+      ],
+      "finding_ids": [
+        "smc-wake",
+        "smc-order",
+        "smc-live-inventory",
+        "smc-inbound-envelope",
+        "smc-usbpd-key-layouts"
+      ]
+    },
+    {
+      "id": "bridge-audio",
+      "title": "Bridge audio state and playback clock",
+      "aliases": [
+        "ALSA",
+        "PipeWire",
+        "t2bce_audio",
+        "bridgeaudiod",
+        "sampleTime",
+        "GPR",
+        "106b:1803",
+        "speaker",
+        "headphone"
+      ],
+      "linux_interfaces": [
+        "ALSA",
+        "PipeWire",
+        "t2bce_audio"
+      ],
+      "firmware_components": [
+        "bridgeaudiod",
+        "AppleBridgeAudio",
+        "AppleBridgeAudioPCIEP",
+        "BridgeAudioCommunication"
+      ],
+      "function": "Playback, recording, timing, and endpoint state",
+      "references": [
+        "docs/audio/bridge-audio-state-and-clock.md",
+        "docs/platform/pci-services-and-dma.md#compatibility-domains"
+      ],
+      "finding_ids": [
+        "bridge-audio-gpr-restore",
+        "bridge-audio-clock-feedback"
+      ]
+    },
+    {
+      "id": "aop-audio",
+      "title": "AOP audio and voice trigger",
+      "aliases": [
+        "AOP",
+        "AppleAOPAudio",
+        "voice trigger",
+        "historic audio",
+        "SpuMCAPacket",
+        "SubPacket",
+        "microphone"
+      ],
+      "linux_interfaces": [
+        "No retained Linux AOP-audio owner"
+      ],
+      "firmware_components": [
+        "AOP",
+        "AppleAOPAudio",
+        "AppleAOPVoiceTrigger",
+        "AppleARMIISAudio"
+      ],
+      "function": "Low-power microphone services and retained audio",
+      "references": [
+        "docs/audio/aop-voice-trigger.md",
+        "docs/platform/pci-services-and-dma.md#compatibility-domains"
+      ],
+      "finding_ids": [
+        "aop-audio-control-contract",
+        "aop-audio-data-envelope"
+      ]
+    },
+    {
+      "id": "aop-sensors",
+      "title": "AOP sensors and SPU time",
+      "aliases": [
+        "AOP",
+        "SPU",
+        "AppleSPUHIDDriver",
+        "IIO",
+        "accelerometer",
+        "gyro",
+        "pressure",
+        "timesync",
+        "calibration"
+      ],
+      "linux_interfaces": [
+        "HID",
+        "IIO"
+      ],
+      "firmware_components": [
+        "AppleSPU",
+        "AppleSPUHIDDriver"
+      ],
+      "function": "Motion and pressure samples, calibration, and timestamps",
+      "references": [
+        "docs/sensors/aop-spu-samples-and-time.md",
+        "docs/power/sleep-wake-and-hibernate.md#aop-sensor-time-and-retention"
+      ],
+      "finding_ids": [
+        "aop-sensor-host-properties"
+      ]
+    },
+    {
+      "id": "las",
+      "title": "Lid-angle sensor (LAS)",
+      "aliases": [
+        "LAS",
+        "lid angle",
+        "lid-angle sensor",
+        "05ac:8104",
+        "hid-sensor-rotation",
+        "HIDIOCGFEATURE",
+        "MA781",
+        "MagAlpha"
+      ],
+      "linux_interfaces": [
+        "hidraw",
+        "HID sensors"
+      ],
+      "firmware_components": [
+        "las",
+        "HID relay"
+      ],
+      "function": "Lid-angle reporting",
+      "references": [
+        "docs/sensors/las-lid-angle.md"
+      ],
+      "finding_ids": [
+        "hid-sensor-export-gap"
+      ]
+    },
+    {
+      "id": "als",
+      "title": "Ambient light sensor",
+      "aliases": [
+        "ALS",
+        "ambient light",
+        "illuminance",
+        "color",
+        "05ac:8262"
+      ],
+      "linux_interfaces": [
+        "HID sensors",
+        "IIO"
+      ],
+      "firmware_components": [
+        "USB HID sensor"
+      ],
+      "function": "Ambient light and color measurements",
+      "references": [
+        "docs/platform/linux-support.md#current-j152f-checkpoint"
+      ],
+      "finding_ids": [
+        "bce-platform-fabric"
+      ]
+    },
+    {
+      "id": "multitouch",
+      "title": "Trackpad, Force Touch, and HIDSPI",
+      "aliases": [
+        "multitouch",
+        "Force Touch",
+        "palm",
+        "HIDSPI",
+        "AFU",
+        "AppleMultitouchDriver",
+        "MultitouchHID.plugin",
+        "trackpad",
+        "0x7e"
+      ],
+      "linux_interfaces": [
+        "HID",
+        "raw user client"
+      ],
+      "firmware_components": [
+        "InputDevice",
+        "Multitouch",
+        "ST AFU",
+        "AppleHIDTransport",
+        "AppleHIDTransportSPI",
+        "AppleInputDeviceSupport",
+        "AppleTopCaseHIDEventDriver"
+      ],
+      "function": "Pointer input, pressure, palm handling, and input recovery",
+      "references": [
+        "docs/input/hid-multitouch.md",
+        "docs/platform/pci-services-and-dma.md#compatibility-domains"
+      ],
+      "finding_ids": [
+        "multitouch-report-gate",
+        "multitouch-afu-path-response"
+      ]
+    },
+    {
+      "id": "touch-bar",
+      "title": "Touch Bar USB and DRM",
+      "aliases": [
+        "Touch Bar",
+        "TouchBar",
+        "05ac:8302",
+        "appletbdrm",
+        "hid_appletb_kbd",
+        "tiny-dfr"
+      ],
+      "linux_interfaces": [
+        "USB",
+        "HID",
+        "DRM"
+      ],
+      "firmware_components": [
+        "USB configurations 1 and 2"
+      ],
+      "function": "Touch Bar keys, display binding, and reprobe",
+      "references": [
+        "docs/input/touch-bar-usb-drm.md"
+      ],
+      "finding_ids": [
+        "touchbar-binding-question"
+      ]
+    },
+    {
+      "id": "camera-isp",
+      "title": "Camera, ISP, exposure, and privacy",
+      "aliases": [
+        "ISP",
+        "UVC",
+        "webcam",
+        "AppleM8",
+        "AppleM8CameraInterface",
+        "AppleH9CameraInterface",
+        "AppleUVCCamera",
+        "exposure",
+        "privacy LED",
+        "selector 7",
+        "0x0204"
+      ],
+      "linux_interfaces": [
+        "uvcvideo",
+        "V4L2"
+      ],
+      "firmware_components": [
+        "AppleM8CameraInterface",
+        "AppleH9CameraInterface",
+        "AppleUVCCamera"
+      ],
+      "function": "Camera capture, exposure, privacy, and stream recovery",
+      "references": [
+        "docs/camera/isp-exposure-and-uvc.md",
+        "docs/platform/linux-support.md#current-j152f-checkpoint"
+      ],
+      "finding_ids": [
+        "camera-native-baseline",
+        "camera-xu-negative",
+        "camera-internal-exposure-path"
+      ]
+    },
+    {
+      "id": "ave",
+      "title": "AVE video encoder",
+      "aliases": [
+        "AVE",
+        "AppleAVEBridge",
+        "AppleAVE2",
+        "aveserverd",
+        "H9",
+        "HEVC",
+        "H.264",
+        "video encoder",
+        "t2bce_ave"
+      ],
+      "linux_interfaces": [
+        "V4L2 mem2mem",
+        "t2bce_ave"
+      ],
+      "firmware_components": [
+        "AppleAVEBridge",
+        "aveserverd",
+        "H9.videoencoder",
+        "AppleAVE2Driver"
+      ],
+      "function": "Hardware video encoding",
+      "references": [
+        "docs/media/ave-video-encoder.md"
+      ],
+      "finding_ids": [
+        "ave-owner-transport-boundary"
+      ]
+    },
+    {
+      "id": "wifi",
+      "title": "Wi-Fi and P2P",
+      "aliases": [
+        "Wi-Fi",
+        "wifi",
+        "WLAN",
+        "BCM4364",
+        "brcmfmac",
+        "P2P",
+        "NVRAM"
+      ],
+      "linux_interfaces": [
+        "brcmfmac"
+      ],
+      "firmware_components": [
+        "Broadcom firmware"
+      ],
+      "function": "Wireless networking",
+      "references": [
+        "docs/platform/linux-support.md#current-j152f-checkpoint"
+      ],
+      "finding_ids": [
+        "wifi-p2p-gap"
+      ]
+    },
+    {
+      "id": "bluetooth",
+      "title": "Bluetooth firmware and AOP power",
+      "aliases": [
+        "Bluetooth",
+        "BT",
+        "HCI",
+        "BCM.hcd",
+        "Marconi",
+        "AppleSPUMarconiControl"
+      ],
+      "linux_interfaces": [
+        "Bluetooth HCI"
+      ],
+      "firmware_components": [
+        "Broadcom controller",
+        "AppleSPUMarconiControl"
+      ],
+      "function": "Bluetooth setup and power lifecycle",
+      "references": [
+        "docs/network/bluetooth-marconi.md",
+        "docs/platform/linux-support.md#current-j152f-checkpoint"
+      ],
+      "finding_ids": [
+        "bluetooth-firmware-selection",
+        "marconi-power-control"
+      ]
+    },
+    {
+      "id": "thunderbolt",
+      "title": "Thunderbolt and USB-C",
+      "aliases": [
+        "Thunderbolt",
+        "USB-C",
+        "Titan Ridge",
+        "hotplug",
+        "IOMMU",
+        "tunneled-native-port"
+      ],
+      "linux_interfaces": [
+        "thunderbolt"
+      ],
+      "firmware_components": [
+        "Host Thunderbolt controllers"
+      ],
+      "function": "External devices, tunneled ports, and DMA policy",
+      "references": [
+        "docs/platform/linux-support.md#current-j152f-checkpoint",
+        "docs/power/sleep-wake-and-hibernate.md#pcie-and-peripheral-lifecycle"
+      ],
+      "finding_ids": [
+        "thunderbolt-integration-gap"
+      ]
+    },
+    {
+      "id": "ethernet",
+      "title": "Desktop Ethernet sideband",
+      "aliases": [
+        "Ethernet",
+        "Aquantia",
+        "AQC",
+        "aqc107",
+        "aqc-i2c",
+        "LOM",
+        "J160",
+        "J185",
+        "J185f"
+      ],
+      "linux_interfaces": [
+        "Ethernet"
+      ],
+      "firmware_components": [
+        "Aquantia sideband",
+        "AOP-I2C"
+      ],
+      "function": "Desktop Ethernet management",
+      "references": [
+        "docs/network/ethernet-sideband.md"
+      ],
+      "finding_ids": [
+        "desktop-ethernet-sideband"
+      ]
+    },
+    {
+      "id": "rtc",
+      "title": "RTC and persistent time",
+      "aliases": [
+        "RTC",
+        "real-time clock",
+        "pmu,d2449",
+        "AppleD2449PMURTC",
+        "rtc-offset"
+      ],
+      "linux_interfaces": [
+        "RTC"
+      ],
+      "firmware_components": [
+        "AppleD2449PMURTC",
+        "iBoot"
+      ],
+      "function": "Clock offset persistence",
+      "references": [
+        "docs/sensors/rtc-persistent-offset.md"
+      ],
+      "finding_ids": [
+        "rtc-offset-contract"
+      ]
+    },
+    {
+      "id": "diagnostics",
+      "title": "Diagnostics, watchdogs, and crash attribution",
+      "aliases": [
+        "RemoteXPC",
+        "BridgeXPC",
+        "watchdog",
+        "panic",
+        "crash",
+        "diagnostics"
+      ],
+      "linux_interfaces": [
+        "kernel logs"
+      ],
+      "firmware_components": [
+        "bridgeOS diagnostics",
+        "watchdog",
+        "AppleARMWatchdogTimer"
+      ],
+      "function": "Distinguishing host failure, T2 panic, and IOP crashes",
+      "references": [
+        "docs/method/investigation-guide.md#correlate-bridgeos-postmortems",
+        "docs/platform/pci-services-and-dma.md#peripherals-and-diagnostics",
+        "docs/platform/pci-services-and-dma.md#compatibility-domains"
+      ],
+      "finding_ids": []
+    },
+    {
+      "id": "boards",
+      "title": "Board configurations and platform topology",
+      "aliases": [
+        "iBridge2",
+        "DeviceTree",
+        "J152f",
+        "MacBookPro16,1",
+        "board matrix"
+      ],
+      "linux_interfaces": [
+        "PCI",
+        "ACPI"
+      ],
+      "firmware_components": [
+        "DeviceTree",
+        "portable and desktop kernelcaches"
+      ],
+      "function": "Model-specific topology and policy",
+      "references": [
+        "docs/platform/board-configurations.md",
+        "docs/platform/pci-services-and-dma.md"
+      ],
+      "finding_ids": [
+        "family-link",
+        "board-policy"
+      ]
+    },
+    {
+      "id": "xhci",
+      "title": "Physical USB controllers outside BCE",
+      "aliases": [
+        "xHCI",
+        "physical USB"
+      ],
+      "linux_interfaces": [
+        "xhci_hcd"
+      ],
+      "firmware_components": [
+        "Host USB controllers"
+      ],
+      "function": "External USB lifecycle",
+      "references": [
+        "docs/power/sleep-wake-and-hibernate.md#pcie-and-peripheral-lifecycle"
+      ],
+      "finding_ids": []
+    },
+    {
+      "id": "keyboard",
+      "title": "Internal keyboard and backlight",
+      "aliases": [
+        "keyboard",
+        "backlight",
+        "hid-apple"
+      ],
+      "linux_interfaces": [
+        "HID"
+      ],
+      "firmware_components": [
+        "Internal input and backlight devices",
+        "AppleHIDKeyboard"
+      ],
+      "function": "Keyboard input and illumination",
+      "references": [
+        "docs/platform/linux-support.md#current-j152f-checkpoint",
+        "docs/input/hid-multitouch.md",
+        "docs/platform/pci-services-and-dma.md#compatibility-domains"
+      ],
+      "finding_ids": [
+        "bce-platform-fabric"
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "id": "audio-aop-voice-trigger",
+      "path": "docs/audio/aop-voice-trigger.md",
+      "title": "AOP audio and voice trigger",
+      "kind": "reference",
+      "topics": [
+        "aop-audio"
+      ]
+    },
+    {
+      "id": "audio-bridge-audio-state-and-clock",
+      "path": "docs/audio/bridge-audio-state-and-clock.md",
+      "title": "Bridge audio: endpoint state and playback clock",
+      "kind": "reference",
+      "topics": [
+        "bridge-audio"
+      ]
+    },
+    {
+      "id": "boot-iboot-firmware-update-and-recovery",
+      "path": "docs/boot/iboot-firmware-update-and-recovery.md",
+      "title": "iBoot policy, firmware update, and recovery",
+      "kind": "reference",
+      "topics": [
+        "boot"
+      ]
+    },
+    {
+      "id": "boot-linux-boot-and-updates",
+      "path": "docs/boot/linux-boot-and-updates.md",
+      "title": "Boot and distribution integration",
+      "kind": "reference",
+      "topics": [
+        "boot"
+      ]
+    },
+    {
+      "id": "camera-isp-exposure-and-uvc",
+      "path": "docs/camera/isp-exposure-and-uvc.md",
+      "title": "Camera ISP exposure and UVC controls",
+      "kind": "reference",
+      "topics": [
+        "camera-isp"
+      ]
+    },
+    {
+      "id": "graphics-acpi-and-gpu-ownership",
+      "path": "docs/graphics/acpi-and-gpu-ownership.md",
+      "title": "Host ACPI and graphics coordination",
+      "kind": "reference",
+      "topics": [
+        "graphics"
+      ]
+    },
+    {
+      "id": "graphics-gmux-panel-and-vfct",
+      "path": "docs/graphics/gmux-panel-and-vfct.md",
+      "title": "Dual-GPU graphics: gmux, panel timing, and VFCT",
+      "kind": "reference",
+      "topics": [
+        "graphics"
+      ]
+    },
+    {
+      "id": "input-hid-multitouch",
+      "path": "docs/input/hid-multitouch.md",
+      "title": "HID input, HIDSPI, and multitouch",
+      "kind": "reference",
+      "topics": [
+        "multitouch",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "input-touch-bar-usb-drm",
+      "path": "docs/input/touch-bar-usb-drm.md",
+      "title": "Touch Bar USB configuration and DRM binding",
+      "kind": "reference",
+      "topics": [
+        "touch-bar"
+      ]
+    },
+    {
+      "id": "media-ave-video-encoder",
+      "path": "docs/media/ave-video-encoder.md",
+      "title": "AVE video encoder transport",
+      "kind": "reference",
+      "topics": [
+        "ave"
+      ]
+    },
+    {
+      "id": "method-investigation-guide",
+      "path": "docs/method/investigation-guide.md",
+      "title": "Investigation guide",
+      "kind": "method",
+      "topics": [
+        "diagnostics"
+      ]
+    },
+    {
+      "id": "method-platform-artifacts",
+      "path": "docs/method/platform-artifacts.md",
+      "title": "Platform artifacts and method",
+      "kind": "method",
+      "topics": [
+        "sep",
+        "fingerprint",
+        "storage",
+        "boot",
+        "graphics",
+        "bce",
+        "power",
+        "smc",
+        "bridge-audio",
+        "aop-audio",
+        "aop-sensors",
+        "las",
+        "als",
+        "multitouch",
+        "touch-bar",
+        "camera-isp",
+        "ave",
+        "wifi",
+        "bluetooth",
+        "thunderbolt",
+        "ethernet",
+        "rtc",
+        "diagnostics",
+        "boards",
+        "xhci",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "method-sep-artifacts",
+      "path": "docs/method/sep-artifacts.md",
+      "title": "SEP artifacts and method",
+      "kind": "method",
+      "topics": [
+        "sep",
+        "fingerprint"
+      ]
+    },
+    {
+      "id": "network-bluetooth-marconi",
+      "path": "docs/network/bluetooth-marconi.md",
+      "title": "Bluetooth Marconi power control",
+      "kind": "reference",
+      "topics": [
+        "bluetooth"
+      ]
+    },
+    {
+      "id": "network-ethernet-sideband",
+      "path": "docs/network/ethernet-sideband.md",
+      "title": "Desktop Ethernet sideband management",
+      "kind": "reference",
+      "topics": [
+        "ethernet"
+      ]
+    },
+    {
+      "id": "platform-board-configurations",
+      "path": "docs/platform/board-configurations.md",
+      "title": "Board configurations",
+      "kind": "reference",
+      "topics": [
+        "boards"
+      ]
+    },
+    {
+      "id": "platform-linux-support",
+      "path": "docs/platform/linux-support.md",
+      "title": "Linux compatibility map",
+      "kind": "reference",
+      "topics": [
+        "als",
+        "camera-isp",
+        "wifi",
+        "bluetooth",
+        "thunderbolt",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "platform-pci-services-and-dma",
+      "path": "docs/platform/pci-services-and-dma.md",
+      "title": "Platform architecture",
+      "kind": "reference",
+      "topics": [
+        "bce",
+        "diagnostics",
+        "boards",
+        "sep",
+        "fingerprint",
+        "storage",
+        "boot",
+        "power",
+        "bridge-audio",
+        "aop-audio",
+        "multitouch",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "power-linux-suspend-observations",
+      "path": "docs/power/linux-suspend-observations.md",
+      "title": "Suspend observations",
+      "kind": "reference",
+      "topics": [
+        "power"
+      ]
+    },
+    {
+      "id": "power-sleep-wake-and-hibernate",
+      "path": "docs/power/sleep-wake-and-hibernate.md",
+      "title": "Sleep, wake, and hibernate",
+      "kind": "reference",
+      "topics": [
+        "storage",
+        "bce",
+        "power",
+        "smc",
+        "aop-sensors",
+        "thunderbolt",
+        "xhci"
+      ]
+    },
+    {
+      "id": "sensors-aop-spu-samples-and-time",
+      "path": "docs/sensors/aop-spu-samples-and-time.md",
+      "title": "AOP and SPU sensor properties and time",
+      "kind": "reference",
+      "topics": [
+        "aop-sensors"
+      ]
+    },
+    {
+      "id": "sensors-las-lid-angle",
+      "path": "docs/sensors/las-lid-angle.md",
+      "title": "Lid-angle sensor (LAS)",
+      "kind": "reference",
+      "topics": [
+        "las"
+      ]
+    },
+    {
+      "id": "sensors-rtc-persistent-offset",
+      "path": "docs/sensors/rtc-persistent-offset.md",
+      "title": "RTC persistent offset and PMU policy",
+      "kind": "reference",
+      "topics": [
+        "rtc"
+      ]
+    },
+    {
+      "id": "sep-readme",
+      "path": "docs/sep/README.md",
+      "title": "T2 SEP and Touch ID research",
+      "kind": "reference",
+      "topics": [
+        "sep",
+        "fingerprint"
+      ]
+    },
+    {
+      "id": "sep-aks-create-v4-j214k",
+      "path": "docs/sep/aks-create-v4-j214k.md",
+      "title": "23P2048 identity-create version 4 layout",
+      "kind": "reference",
+      "topics": [
+        "sep"
+      ]
+    },
+    {
+      "id": "sep-aks-identity-and-authorization",
+      "path": "docs/sep/aks-identity-and-authorization.md",
+      "title": "Identity and authorization",
+      "kind": "reference",
+      "topics": [
+        "sep"
+      ]
+    },
+    {
+      "id": "sep-fingerprint-integration",
+      "path": "docs/sep/fingerprint-integration.md",
+      "title": "Fingerprint integration contracts",
+      "kind": "reference",
+      "topics": [
+        "fingerprint"
+      ]
+    },
+    {
+      "id": "sep-fingerprint-lifecycle",
+      "path": "docs/sep/fingerprint-lifecycle.md",
+      "title": "Fingerprint lifecycle",
+      "kind": "reference",
+      "topics": [
+        "fingerprint"
+      ]
+    },
+    {
+      "id": "sep-linux-integration",
+      "path": "docs/sep/linux-integration.md",
+      "title": "Linux integration of SEP identity",
+      "kind": "reference",
+      "topics": [
+        "fingerprint"
+      ]
+    },
+    {
+      "id": "sep-services-and-mailboxes",
+      "path": "docs/sep/services-and-mailboxes.md",
+      "title": "SEP architecture",
+      "kind": "reference",
+      "topics": [
+        "sep"
+      ]
+    },
+    {
+      "id": "smc-notifications-and-usb-pd",
+      "path": "docs/smc/notifications-and-usb-pd.md",
+      "title": "SMC notifications, charging, and USB-PD",
+      "kind": "reference",
+      "topics": [
+        "smc"
+      ]
+    },
+    {
+      "id": "storage-sep-persistence-and-nvme",
+      "path": "docs/storage/sep-persistence-and-nvme.md",
+      "title": "Boot and persistent storage",
+      "kind": "reference",
+      "topics": [
+        "storage"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "source": "bce",
+      "target": "camera-isp",
+      "kind": "transport",
+      "evidence": "observed",
+      "description": "BCE/VHCI exposes the UVC camera.",
+      "reference": "docs/platform/pci-services-and-dma.md#peripherals-and-diagnostics"
+    },
+    {
+      "source": "bce",
+      "target": "touch-bar",
+      "kind": "transport",
+      "evidence": "observed",
+      "description": "BCE/VHCI exposes the Touch Bar USB configurations.",
+      "reference": "docs/platform/linux-support.md#current-j152f-checkpoint"
+    },
+    {
+      "source": "bce",
+      "target": "las",
+      "kind": "transport",
+      "evidence": "observed",
+      "description": "BCE/VHCI exposes the lid-angle sensor as USB 05ac:8104.",
+      "reference": "docs/sensors/las-lid-angle.md"
+    },
+    {
+      "source": "bce",
+      "target": "keyboard",
+      "kind": "transport",
+      "evidence": "observed",
+      "description": "Internal keyboard and backlight enumerate through BCE/VHCI.",
+      "reference": "docs/platform/linux-support.md#current-j152f-checkpoint"
+    },
+    {
+      "source": "bce",
+      "target": "als",
+      "kind": "transport",
+      "evidence": "observed",
+      "description": "BCE/VHCI exposes the ambient-light sensor.",
+      "reference": "docs/platform/linux-support.md#current-j152f-checkpoint"
+    },
+    {
+      "source": "bce",
+      "target": "multitouch",
+      "kind": "transport",
+      "evidence": "observed",
+      "description": "The internal trackpad is a BCE/VHCI child in the inventory.",
+      "reference": "docs/platform/linux-support.md#current-j152f-checkpoint"
+    },
+    {
+      "source": "fingerprint",
+      "target": "sep",
+      "kind": "service-dependency",
+      "evidence": "recovered",
+      "description": "Biometric operations depend on SEP identity and authorization services.",
+      "reference": "docs/sep/fingerprint-lifecycle.md#from-an-activated-account-to-a-fingerprint"
+    },
+    {
+      "source": "sep",
+      "target": "storage",
+      "kind": "persistence-dependency",
+      "evidence": "recovered",
+      "description": "SEP persistence crosses xART and embedded storage boundaries.",
+      "reference": "docs/storage/sep-persistence-and-nvme.md#xart-and-gigalocker"
+    },
+    {
+      "source": "power",
+      "target": "graphics",
+      "kind": "coordination",
+      "evidence": "recovered",
+      "description": "Graphics transitions coordinate GPU, HDA, root port, and mux state.",
+      "reference": "docs/graphics/gmux-panel-and-vfct.md"
+    },
+    {
+      "source": "power",
+      "target": "smc",
+      "kind": "coordination",
+      "evidence": "recovered",
+      "description": "Wake and completion notifications involve the SMC fabric.",
+      "reference": "docs/power/sleep-wake-and-hibernate.md#wake-aggregation-and-smc"
+    },
+    {
+      "source": "aop-sensors",
+      "target": "las",
+      "kind": "possible-owner",
+      "evidence": "inferred",
+      "description": "AOP LAS naming suggests ownership; a direct host relay route is not proven.",
+      "reference": "docs/platform/board-configurations.md#shared-topology-and-policy"
+    },
+    {
+      "source": "aop-audio",
+      "target": "bridge-audio",
+      "kind": "distinct-subsystem",
+      "evidence": "recovered",
+      "description": "AOP voice-trigger services are separate from host-visible bridge audio.",
+      "reference": "docs/audio/aop-voice-trigger.md"
+    },
+    {
+      "source": "bluetooth",
+      "target": "aop-sensors",
+      "kind": "control-comparator",
+      "evidence": "unresolved",
+      "description": "Marconi control uses AppleSPU; its relation to host HCI symptoms is unproven.",
+      "reference": "docs/network/bluetooth-marconi.md"
+    },
+    {
+      "source": "camera-isp",
+      "target": "ave",
+      "kind": "distinct-subsystem",
+      "evidence": "recovered",
+      "description": "Camera controls and AVE encoding have separate recovered owners and interfaces.",
+      "reference": "docs/media/ave-video-encoder.md"
+    }
+  ],
+  "coverage": [
+    {
+      "id": "P1",
+      "title": "Sixteen-board BridgeOS policy",
+      "topics": [
+        "boards"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for bridgeOS `23P6068`; revisit only for another signed build or a newly identified field.",
+      "references": [
+        "docs/platform/board-configurations.md",
+        "docs/platform/pci-services-and-dma.md"
+      ]
+    },
+    {
+      "id": "P2",
+      "title": "J152f host boundary and APP7777 applicability",
+      "topics": [
+        "graphics",
+        "boards"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for provider selection on J152f.",
+      "references": [
+        "docs/graphics/gmux-panel-and-vfct.md",
+        "docs/graphics/acpi-and-gpu-ownership.md",
+        "docs/platform/board-configurations.md",
+        "docs/platform/pci-services-and-dma.md"
+      ]
+    },
+    {
+      "id": "P3",
+      "title": "Host boundary on the other 15 boards",
+      "topics": [
+        "boards"
+      ],
+      "status": "missing-input",
+      "limit": "sanitized board-indexed ACPI/PCI captures.",
+      "references": [
+        "docs/platform/board-configurations.md",
+        "docs/platform/pci-services-and-dma.md"
+      ]
+    },
+    {
+      "id": "P4",
+      "title": "Shared upstream PCIe and DART",
+      "topics": [
+        "bce"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for the static reset boundary. A cross-function quiesce/invalidate/reattach coordinator is implementation work, and any shared reset remains controlled; neither is an unperformed reversing lead.",
+      "references": [
+        "docs/platform/pci-services-and-dma.md#reset-and-queue-boundaries",
+        "docs/power/sleep-wake-and-hibernate.md#bce-state-preservation"
+      ]
+    },
+    {
+      "id": "P5",
+      "title": "Remote diagnostics and paired attribution",
+      "topics": [
+        "diagnostics"
+      ],
+      "status": "missing-input",
+      "limit": "one clock-correlated host plus bridgeOS transition capture.",
+      "references": [
+        "docs/method/investigation-guide.md#correlate-bridgeos-postmortems",
+        "docs/platform/pci-services-and-dma.md#peripherals-and-diagnostics"
+      ]
+    },
+    {
+      "id": "P6",
+      "title": "Watchdog, panic, and crash recovery",
+      "topics": [
+        "diagnostics"
+      ],
+      "status": "missing-input",
+      "limit": "paired crash/watchdog records from the same transition.",
+      "references": [
+        "docs/method/investigation-guide.md#correlate-bridgeos-postmortems",
+        "docs/platform/pci-services-and-dma.md#peripherals-and-diagnostics"
+      ]
+    },
+    {
+      "id": "P7",
+      "title": "AppleSMC and PMGR completion/wake fabric",
+      "topics": [
+        "smc",
+        "power"
+      ],
+      "status": "missing-input",
+      "limit": "typed consumers for the remaining event selectors and a caller or symbolized table that names the PMGR routing values. The retained dispatcher, consumer, table, and literal searches exhausted their direct edges; bytes 0-3 cannot supply status because this dispatcher never reads them.",
+      "references": [
+        "docs/power/sleep-wake-and-hibernate.md",
+        "docs/power/linux-suspend-observations.md",
+        "docs/smc/notifications-and-usb-pd.md",
+        "docs/power/sleep-wake-and-hibernate.md#wake-aggregation-and-smc"
+      ]
+    },
+    {
+      "id": "P8",
+      "title": "BCE ordinary sleep selection",
+      "topics": [
+        "bce",
+        "power"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "do not conflate it with hibernate or controller acceptance.",
+      "references": [
+        "docs/platform/pci-services-and-dma.md#reset-and-queue-boundaries",
+        "docs/power/sleep-wake-and-hibernate.md#bce-state-preservation",
+        "docs/power/sleep-wake-and-hibernate.md",
+        "docs/power/linux-suspend-observations.md"
+      ]
+    },
+    {
+      "id": "P9",
+      "title": "VHCI, internal USB, reset, and wake",
+      "topics": [
+        "bce"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for the static state/reset map. Adding and testing a VHCI epoch plus BCE-function quarantine/rebuild is off-device implementation work, not outstanding firmware analysis; shared PERST remains outside the VHCI owner.",
+      "references": [
+        "docs/platform/pci-services-and-dma.md#reset-and-queue-boundaries",
+        "docs/power/sleep-wake-and-hibernate.md#bce-state-preservation"
+      ]
+    },
+    {
+      "id": "P10",
+      "title": "Hibernate as a whole chain",
+      "topics": [
+        "power"
+      ],
+      "status": "qualification-decision",
+      "limit": "any S4 qualification requires a recovery-aware, controlled session after static dependency review.",
+      "references": [
+        "docs/power/sleep-wake-and-hibernate.md",
+        "docs/power/linux-suspend-observations.md"
+      ]
+    },
+    {
+      "id": "S1",
+      "title": "Host ANS2/root storage",
+      "topics": [
+        "storage"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for the host/T2 controller and typed-command boundary. Any new health UI can use the already typed generic NVMe interfaces; firmware update and hibernate qualification are separate implementation/runtime projects, not a static raw-tunnel lead.",
+      "references": [
+        "docs/storage/sep-persistence-and-nvme.md",
+        "docs/power/sleep-wake-and-hibernate.md#ans-ordinary-sleep-and-cancellation"
+      ]
+    },
+    {
+      "id": "S2",
+      "title": "BridgeOS internal ANS/NVMe and xART",
+      "topics": [
+        "storage"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for the transport boundary; creator recovery is a separate vendor workflow.",
+      "references": [
+        "docs/storage/sep-persistence-and-nvme.md",
+        "docs/power/sleep-wake-and-hibernate.md#ans-ordinary-sleep-and-cancellation"
+      ]
+    },
+    {
+      "id": "S3",
+      "title": "SEP services beyond biometrics",
+      "topics": [
+        "sep",
+        "power"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for owner, ordering, and causal relevance. Endpoint-specific hold/abort/restart support is protocol implementation work and requires per-service acceptance evidence; it is not a generic PM callback left to discover in the reviewed Linux driver.",
+      "references": [
+        "docs/sep/services-and-mailboxes.md",
+        "docs/sep/aks-identity-and-authorization.md",
+        "docs/sep/aks-create-v4-j214k.md",
+        "docs/power/sleep-wake-and-hibernate.md",
+        "docs/power/linux-suspend-observations.md"
+      ]
+    },
+    {
+      "id": "S4",
+      "title": "Touch ID lifecycle",
+      "topics": [
+        "fingerprint"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for compatibility discovery; track productization separately.",
+      "references": [
+        "docs/sep/fingerprint-lifecycle.md",
+        "docs/sep/fingerprint-integration.md",
+        "docs/sep/linux-integration.md"
+      ]
+    },
+    {
+      "id": "S5",
+      "title": "Boot and EFI policy",
+      "topics": [
+        "boot"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for the feasible writer, threshold, and direct fallback graph. Resolving the unnamed selectors, predicates, or backend requires a symbolized sibling or controlled trace; another string/direct-branch scan cannot supply them.",
+      "references": [
+        "docs/boot/iboot-firmware-update-and-recovery.md",
+        "docs/boot/linux-boot-and-updates.md"
+      ]
+    },
+    {
+      "id": "S6",
+      "title": "Firmware update, erase, and device-mode recovery",
+      "topics": [
+        "boot"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for the retained static transaction graph. Exact return-to-original, fail-forward, or recovery-mode selection requires a matched persisted checkpoint/NVRAM snapshot across failure; update execution was not part of this analysis.",
+      "references": [
+        "docs/boot/iboot-firmware-update-and-recovery.md",
+        "docs/boot/linux-boot-and-updates.md"
+      ]
+    },
+    {
+      "id": "G1",
+      "title": "Intel panel, EDID, and MacEFI sequencing",
+      "topics": [
+        "graphics"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for panel timing; lane count and link rate belong to the route/active-link measurement boundary.",
+      "references": [
+        "docs/graphics/gmux-panel-and-vfct.md",
+        "docs/graphics/acpi-and-gpu-ownership.md"
+      ]
+    },
+    {
+      "id": "G2",
+      "title": "gmux ownership and switch transaction",
+      "topics": [
+        "graphics"
+      ],
+      "status": "missing-input",
+      "limit": "a gmux/SMC register definition, board-level rail map, or controlled correlation trace that gives port `0x58` device semantics. Exhaustive command/caller/readback review found only writes. The prepare/switch/validate/abort transaction is now implementation design and remains separate from that missing meaning.",
+      "references": [
+        "docs/graphics/gmux-panel-and-vfct.md",
+        "docs/graphics/acpi-and-gpu-ownership.md"
+      ]
+    },
+    {
+      "id": "G3",
+      "title": "AMD/HDA/root-port power, reset, and runtime switch",
+      "topics": [
+        "graphics"
+      ],
+      "status": "physical-qualification-needed",
+      "limit": "require a validated abort path and known recovery route before power, reset, switch, or suspend tests.",
+      "references": [
+        "docs/graphics/gmux-panel-and-vfct.md",
+        "docs/graphics/acpi-and-gpu-ownership.md"
+      ]
+    },
+    {
+      "id": "G4",
+      "title": "Bridge-audio endpoint state and PM revalidation",
+      "topics": [
+        "bridge-audio"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for ownership, negative replay, and defect discovery. Implementation remains blocked on a safe client-publication protocol, reverse-order SQ/CQ/DMA unwind, IRQ-dispatch quiescence, owned draining of both dynamic work classes, failure injection, and concurrent PM/shutdown/IRQ/work tests before build and hardware qualification.",
+      "references": [
+        "docs/audio/bridge-audio-state-and-clock.md"
+      ]
+    },
+    {
+      "id": "G5",
+      "title": "Playback clock, codec, DSP, jack, and speaker protection",
+      "topics": [
+        "bridge-audio"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for static framing and the missing Linux field. Parser/pointer integration is implementation work; timestamp units, simultaneous-direction sharing, and symptom attribution require a matched runtime trace and remain runtime qualification, not static guesses.",
+      "references": [
+        "docs/audio/bridge-audio-state-and-clock.md"
+      ]
+    },
+    {
+      "id": "G6",
+      "title": "AOP audio and voice trigger",
+      "topics": [
+        "aop-audio"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for the retained static controller and host packet paths. Establishing timestamp units/byte-count relation requires the producer-side timebase contract or matched trace; default enablement is a product decision.",
+      "references": [
+        "docs/audio/aop-voice-trigger.md"
+      ]
+    },
+    {
+      "id": "G7",
+      "title": "AppleSMC charging and thermal policy",
+      "topics": [
+        "smc"
+      ],
+      "status": "missing-input",
+      "limit": "runtime `getKeyInfo` output or the producer-side key table for declared types, plus typed consumers for remaining event selectors. Host call-site, imported-accessor, serializer, and raw-key scans exhausted the retained static scale/layout evidence; no write is justified.",
+      "references": [
+        "docs/smc/notifications-and-usb-pd.md",
+        "docs/power/sleep-wake-and-hibernate.md#wake-aggregation-and-smc"
+      ]
+    },
+    {
+      "id": "G8",
+      "title": "Battery/charging symptom",
+      "topics": [
+        "smc"
+      ],
+      "status": "runtime-evidence-needed",
+      "limit": "next evidence is a bounded, board-specific event/key/USB-PD trace, not a policy write.",
+      "references": [
+        "docs/smc/notifications-and-usb-pd.md",
+        "docs/power/sleep-wake-and-hibernate.md#wake-aggregation-and-smc"
+      ]
+    },
+    {
+      "id": "G9",
+      "title": "AOP sensors and timesync",
+      "topics": [
+        "aop-sensors"
+      ],
+      "status": "missing-input",
+      "limit": "the AOP ready/service assignment plus one producer-side accel/gyro/pressure sample and calibration path tied to the recovered dynamic interface and timestamp envelope. Host-side executable analysis is complete; cross-generation endpoint tables cannot fill the producer edge.",
+      "references": [
+        "docs/sensors/aop-spu-samples-and-time.md",
+        "docs/power/sleep-wake-and-hibernate.md#aop-sensor-time-and-retention"
+      ]
+    },
+    {
+      "id": "I1",
+      "title": "HIDSPI updater, reset policy, and report 0x7e",
+      "topics": [
+        "multitouch"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for declared structure; counter semantics need a read-only sample.",
+      "references": [
+        "docs/input/hid-multitouch.md"
+      ]
+    },
+    {
+      "id": "I2",
+      "title": "Multitouch, Force Touch, palm, and report bodies",
+      "topics": [
+        "multitouch"
+      ],
+      "status": "missing-input",
+      "limit": "the build-matched `MultitouchHID.plugin` or equivalent user-client consumer that maps admitted IDs to lengths and fields. The retained AFU caller/copy lane is complete and cannot supply that host-side edge; do not reuse internal layouts as contact fields.",
+      "references": [
+        "docs/input/hid-multitouch.md"
+      ]
+    },
+    {
+      "id": "I3",
+      "title": "Touch Bar display personality",
+      "topics": [
+        "touch-bar"
+      ],
+      "status": "missing-input",
+      "limit": "the bridgeOS USB gadget/personality binary that selects and initializes configuration 2, plus its 856-byte HID descriptor or an already retained macOS descriptor capture. The named component and broad identity searches failed; live configuration switching remains controlled.",
+      "references": [
+        "docs/input/touch-bar-usb-drm.md"
+      ]
+    },
+    {
+      "id": "I4",
+      "title": "Lid-angle sensor (LAS)",
+      "topics": [
+        "las"
+      ],
+      "status": "runtime-evidence-needed",
+      "limit": "any further work requires controlled stimulus-correlated report-1 sampling or a validated parser for other reports; do not send output report 6.",
+      "references": [
+        "docs/sensors/las-lid-angle.md"
+      ]
+    },
+    {
+      "id": "I5",
+      "title": "Camera controls, exposure, privacy, teardown, and reopen",
+      "topics": [
+        "camera-isp"
+      ],
+      "status": "missing-input",
+      "limit": "the selector-7 dispatch-table edge into the recovered gated routine, the `AppleUVCCamera` policy-to-property-0 caller, and an identified privacy/LED controller or a trace establishing that relationship. `SEPCameraDisable` belongs to SEP metadata and does not prove camera privacy ownership; no XU request is valid because the bitmap enables none.",
+      "references": [
+        "docs/camera/isp-exposure-and-uvc.md",
+        "docs/platform/linux-support.md#current-j152f-checkpoint"
+      ]
+    },
+    {
+      "id": "I6",
+      "title": "T2 media encoder",
+      "topics": [
+        "ave"
+      ],
+      "status": "bounded-static-complete",
+      "limit": "for retained static command `0x02` and callback `0x0b`. Further confidence requires board-scoped runtime qualification and negative/safety testing, not more corpus searching.",
+      "references": [
+        "docs/media/ave-video-encoder.md"
+      ]
+    },
+    {
+      "id": "I7",
+      "title": "Wi-Fi",
+      "topics": [
+        "wifi"
+      ],
+      "status": "runtime-evidence-needed",
+      "limit": "require a board-bound firmware/NVRAM/control trace to move beyond symptom.",
+      "references": [
+        "docs/platform/linux-support.md#current-j152f-checkpoint"
+      ]
+    },
+    {
+      "id": "I8",
+      "title": "Bluetooth and AOP control",
+      "topics": [
+        "bluetooth"
+      ],
+      "status": "runtime-evidence-needed",
+      "limit": "non-disruptively confirm dynamic-service presence and correlate power requests with host HCI lifecycle before any reset hypothesis.",
+      "references": [
+        "docs/network/bluetooth-marconi.md",
+        "docs/platform/linux-support.md#current-j152f-checkpoint"
+      ]
+    },
+    {
+      "id": "I9",
+      "title": "USB-C and Thunderbolt",
+      "topics": [
+        "thunderbolt"
+      ],
+      "status": "physical-qualification-needed",
+      "limit": "controlled devices and a recovery-aware hotplug/wake matrix after static review of the helper.",
+      "references": [
+        "docs/platform/linux-support.md#current-j152f-checkpoint",
+        "docs/power/sleep-wake-and-hibernate.md#pcie-and-peripheral-lifecycle"
+      ]
+    },
+    {
+      "id": "I10",
+      "title": "Desktop Ethernet",
+      "topics": [
+        "ethernet"
+      ],
+      "status": "missing-input",
+      "limit": "the J185/J185f AOP-I2C application/service binary or typed message trace, and J160 register definitions if implementation proceeds. All-board and executable/class searches found topology but no AOP owner or declared user-client implementation.",
+      "references": [
+        "docs/network/ethernet-sideband.md"
+      ]
+    },
+    {
+      "id": "I11",
+      "title": "RTC and persistent time",
+      "topics": [
+        "rtc"
+      ],
+      "status": "missing-input",
+      "limit": "the host-side provider/helper implementation that defines transport, epoch/unit conversion, and alarms, or a typed comparator trace. DeviceTree, RTC-component, iBoot, and experimental-driver review found no such contract; no RTC write is justified.",
+      "references": [
+        "docs/sensors/rtc-persistent-offset.md"
+      ]
+    },
+    {
+      "id": "I12",
+      "title": "Physical xHCI outside BCE",
+      "topics": [
+        "xhci"
+      ],
+      "status": "runtime-evidence-needed",
+      "limit": "trace exact PCI/platform ordering only after a non-disruptive instrumentation plan.",
+      "references": [
+        "docs/power/sleep-wake-and-hibernate.md#pcie-and-peripheral-lifecycle"
+      ]
+    },
+    {
+      "id": "I13",
+      "title": "Internal keyboard and backlight",
+      "topics": [
+        "keyboard"
+      ],
+      "status": "runtime-evidence-needed",
+      "limit": "collect board-bound IDs and post-transition acceptance only when a safe platform transition exists.",
+      "references": [
+        "docs/platform/linux-support.md#current-j152f-checkpoint",
+        "docs/input/hid-multitouch.md"
+      ]
+    }
+  ],
+  "interfaces": [
+    {
+      "id": "t2-pcie",
+      "type": "PCIe link",
+      "parent": null,
+      "identity": "apcie-up,t8012; x4 Gen2",
+      "topics": [
+        "bce",
+        "storage",
+        "sep",
+        "bridge-audio"
+      ],
+      "evidence": "recovered",
+      "scope": "Production DeviceTrees in bridgeOS 23P6068.",
+      "reference": "docs/platform/pci-services-and-dma.md#host-and-firmware-boundaries"
+    },
+    {
+      "id": "ans2",
+      "type": "PCI function",
+      "parent": "t2-pcie",
+      "identity": "106b:2005",
+      "function": 0,
+      "dart_stream": 1,
+      "topics": [
+        "storage"
+      ],
+      "evidence": "recovered-and-observed",
+      "scope": "Function/DART assignment from bridgeOS 23P6068; PCI ID observed on J152f.",
+      "reference": "docs/platform/pci-services-and-dma.md#host-and-firmware-boundaries",
+      "observation_reference": "docs/platform/linux-support.md#current-j152f-checkpoint"
+    },
+    {
+      "id": "bce",
+      "type": "PCI function",
+      "parent": "t2-pcie",
+      "identity": "106b:1801",
+      "function": 1,
+      "dart_stream": 0,
+      "topics": [
+        "bce"
+      ],
+      "evidence": "recovered-and-observed",
+      "scope": "Function/DART assignment from bridgeOS 23P6068; PCI ID observed on J152f.",
+      "reference": "docs/platform/pci-services-and-dma.md#host-and-firmware-boundaries",
+      "observation_reference": "docs/platform/linux-support.md#current-j152f-checkpoint"
+    },
+    {
+      "id": "sep",
+      "type": "PCI function",
+      "parent": "t2-pcie",
+      "identity": "106b:1802",
+      "function": 2,
+      "dart_stream": 2,
+      "topics": [
+        "sep"
+      ],
+      "evidence": "recovered-and-observed",
+      "scope": "Function/DART assignment from bridgeOS 23P6068; PCI ID observed on J152f.",
+      "reference": "docs/platform/pci-services-and-dma.md#host-and-firmware-boundaries",
+      "observation_reference": "docs/platform/linux-support.md#current-j152f-checkpoint"
+    },
+    {
+      "id": "bridge-audio",
+      "type": "PCI function",
+      "parent": "t2-pcie",
+      "identity": "106b:1803",
+      "function": 3,
+      "dart_stream": 3,
+      "topics": [
+        "bridge-audio"
+      ],
+      "evidence": "recovered-and-observed",
+      "scope": "Function/DART assignment from bridgeOS 23P6068; PCI ID observed on J152f.",
+      "reference": "docs/platform/pci-services-and-dma.md#host-and-firmware-boundaries",
+      "observation_reference": "docs/platform/linux-support.md#current-j152f-checkpoint"
+    },
+    {
+      "id": "las-usb",
+      "type": "USB device via BCE/VHCI",
+      "parent": "bce",
+      "identity": "05ac:8104",
+      "topics": [
+        "las"
+      ],
+      "evidence": "observed",
+      "scope": "J152f inventory on 2026-09-18; does not establish the embedded firmware owner.",
+      "reference": "docs/sensors/las-lid-angle.md"
+    },
+    {
+      "id": "touch-bar-usb",
+      "type": "USB device via BCE/VHCI",
+      "parent": "bce",
+      "identity": "05ac:8302",
+      "topics": [
+        "touch-bar"
+      ],
+      "evidence": "observed",
+      "scope": "J152f inventory on 2026-09-18; does not establish the embedded firmware owner.",
+      "reference": "docs/input/touch-bar-usb-drm.md"
+    },
+    {
+      "id": "als-usb",
+      "type": "USB device via BCE/VHCI",
+      "parent": "bce",
+      "identity": "05ac:8262",
+      "topics": [
+        "als"
+      ],
+      "evidence": "observed",
+      "scope": "J152f inventory on 2026-09-18; does not establish the embedded firmware owner.",
+      "reference": "docs/platform/linux-support.md#current-j152f-checkpoint"
+    }
+  ]
+}

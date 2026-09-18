@@ -1,70 +1,73 @@
 # T2 platform research
 
-MIT-licensed technical references and reference code for Linux support on Apple
-T2 Macs. The collection covers SEP and Touch ID protocols, persistent storage,
-platform topology, firmware power management, and suspend/hibernate behavior.
-It extends the project previously called t2touch-mini.
+Original research into Apple T2 hardware, firmware, and the interfaces Linux
+needs to use them. The collection brings together recovered protocols,
+board topology, driver comparisons, hardware observations, and the boundaries
+that remain unresolved.
 
-## Read the research
+## Find a subsystem
 
-| Start here | What it answers |
+| Subject | Start with |
 | --- | --- |
-| [Platform architecture](docs/platform-architecture.md) | How host PCI functions, firmware services, storage, and peripherals fit together. |
-| [Board configurations](docs/board-configurations.md) | Shared topology and policy differences across 16 production iBridge2 configurations. |
-| [SEP and Touch ID](docs/research/README.md) | Service routing, AKS/ACM authorization, identity creation, and the fingerprint lifecycle. |
-| [Boot and persistent storage](docs/research/boot-and-storage.md) | EFI startup, xART, gigalocker, and embedded NVMe namespaces. |
-| [Power management](docs/power-management.md) | Recovered BCE, SMC, ANS, SEP, and PMGR behavior. |
-| [Host coordination](docs/host-coordination.md) | J152f ACPI, graphics ordering, and the APP7777 comparator. |
-| [Suspend observations](docs/suspend-observations.md) | Linux experiments and the causal explanations they support. |
-| [Boot and distribution integration](docs/boot-and-distribution.md) | Configuration-specific lessons from boot, graphics, and kernel updates. |
-| [Artifacts and method](docs/artifacts-and-method.md) | Platform firmware identities, analysis anchors, and reproduction steps. |
-| [Investigation guide](docs/investigation-guide.md) | Useful next measurements and how to report them. |
-| [Findings index](findings.json) | One machine-readable index of the protocol and platform findings. |
+| Secure Enclave and Touch ID | [SEP services and AKS identity](docs/README.md#sep) · [Fingerprint lifecycle](docs/README.md#fingerprint) |
+| Dual-GPU graphics | [gmux, i915/amdgpu, panel timing, and VFCT](docs/README.md#graphics) |
+| Audio | [Bridge audio state and clock feedback](docs/README.md#bridge-audio) · [AOP audio and voice trigger](docs/README.md#aop-audio) |
+| Camera and media | [ISP exposure and UVC controls](docs/README.md#camera-isp) · [AVE video encoding](docs/README.md#ave) |
+| Sensors | [Lid-angle sensor (LAS)](docs/README.md#las) · [AOP/SPU motion and time](docs/README.md#aop-sensors) · [Ambient light](docs/README.md#als) |
+| Input | [Trackpad and Force Touch](docs/README.md#multitouch) · [Touch Bar USB/DRM](docs/README.md#touch-bar) |
+| Power and charging | [Sleep, wake, and hibernate](docs/README.md#power) · [SMC, battery, thermal, and USB-PD](docs/README.md#smc) |
+| Transport and storage | [BCE, VHCI, and DART](docs/README.md#bce) · [ANS2, NVMe, and xART](docs/README.md#storage) |
+| Boot and recovery | [iBoot, EFI, firmware updates, and Linux boot](docs/README.md#boot) |
+| Network and clocks | [Wi-Fi](docs/README.md#wifi) · [Bluetooth](docs/README.md#bluetooth) · [Thunderbolt](docs/README.md#thunderbolt) · [Ethernet](docs/README.md#ethernet) · [RTC](docs/README.md#rtc) |
 
-The platform inventory covers all 16 production configurations in bridgeOS
-`23P6068`. Host ACPI and the principal runtime experiments cover
-MacBookPro16,1 / J152fAP. The SEP reference also documents identity-create-v4
-on MacBookPro16,2 / J214K with bridgeOS `23P2048`. Each chapter distinguishes
-static analysis, observed behavior, and inference. A firmware inventory does
-not establish working suspend or fingerprint integration on every model.
+The [research map](docs/README.md) connects Linux names, firmware components,
+device IDs, functionality, and findings. The
+[platform overview](docs/platform/pci-services-and-dma.md) explains the host/T2
+boundary; the [board matrix](docs/platform/board-configurations.md) identifies
+model-specific policy. The [coverage map](docs/platform/research-coverage.md)
+states what was examined and what evidence is still needed.
 
-## Use the reference code
+## Read the evidence
 
-The Python modules encode AppleKeyStore identity creation, export, replacement,
-and open requests, and provide crash-safe activation-bundle storage. Their
-existing module names and interfaces are retained.
+The main firmware inventory covers 16 production configurations in bridgeOS
+`23P6068`. Most host observations concern MacBookPro16,1 / J152fAP. A separate
+SEP reference covers identity-create-v4 on MacBookPro16,2 / J214K with
+`23P2048`. A recovered interface or a successful experiment on one configuration
+does not establish support across the family.
 
-| Module | Purpose |
+Chapters distinguish static analysis, hardware observations, comparisons, and
+inference. [Artifact identities and extraction methods](docs/method/platform-artifacts.md)
+and the [SEP artifact record](docs/method/sep-artifacts.md) make results
+traceable without redistributing firmware. Use the
+[investigation guide](docs/method/investigation-guide.md) to identify a missing
+measurement or contribute a correction.
+
+## Machine-readable references
+
+- [Research catalog](catalog/research-map.json): topic IDs, aliases, Linux and
+  firmware names, document routes, qualified relationships, and coverage.
+- [Findings](catalog/findings.json): stable finding IDs with evidence type, scope, and
+  links to the analysis.
+- [Boards](catalog/boards.json): production configurations and DeviceTree identities.
+- [Catalog guide](catalog/README.md): schema, lookup commands, and maintenance
+  rules. Human maps are generated from the same catalog.
+
+## Repository contents
+
+| Directory | Purpose |
 | --- | --- |
-| [Identity creation](src/t2_aks_identity_create.py) | Encode v4/v5 creation and export requests; decode responses. |
-| [Identity replacement](src/t2_aks_identity_replacement.py) | Encode deletion and UUID-based open requests; decode responses. |
-| [Activation storage](src/t2_activation_bundle.py) | Store the creation input and saved keybag with interrupted-write recovery. |
+| [docs](docs/README.md) | Research chapters, evidence, and subsystem maps for readers. |
+| [catalog](catalog/README.md) | Machine-readable indexes and optional scripts to search them, regenerate maps, and check the collection. |
+| [reference-code](reference-code/README.md) | Python implementations of recovered AKS message formats and activation-bundle storage, with examples and tests for integrators. |
 
-Python 3.10 or newer is sufficient; the package uses the standard library.
-
-```sh
-python3 -m unittest discover -s tests -v
-python3 examples/encode_identity.py
-python3 scripts/verify.py
-```
-
-The example uses synthetic data and does not contact hardware. The
-[integration guide](docs/integration.md) defines the transport and lifecycle
-contracts an adopter must supply. The modules do not run fprintd or enable
-fingerprint login by themselves.
-
-## Relationship to t2touch
-
-[t2touch](https://github.com/macintog/t2touch) supplies the installable Touch ID
-implementation and its authentication, recovery, and desktop documentation.
-This project is the maintained home for reusable research and reference code.
-Product documentation links to a specific research revision so its explanations
-remain tied to the version being described.
+The catalog scripts operate on this repository's documents and indexes. The
+reference code illustrates specific protocol and persistence contracts; it
+does not provide a driver or fingerprint service. Neither is needed to read
+the research, and there is nothing to install.
 
 ## Reuse and contributions
 
-The original explanations, reference modules, and tools use the
-[MIT license](LICENSE). [Credits](CREDITS.md) distinguish upstream foundations,
-protocol contributions, analysis tools, and external reports.
-[Contributing](CONTRIBUTING.md) describes how to submit corrections and
-configuration-specific evidence.
+The original explanations, reference code, and collection tools use the
+[MIT license](LICENSE). [Credits](CREDITS.md) identify contributed findings,
+comparison sources, and analysis tools. [Contributing](CONTRIBUTING.md) explains
+how to add evidence and keep both reader and machine indexes useful.

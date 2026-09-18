@@ -1,30 +1,53 @@
-# Contributing
+# Contributing research
 
-Send a correction with the affected finding ID or document section, the exact
-artifact or source revision, and the evidence that changes the claim. State
-whether the result is static analysis, a hardware observation, or an inference.
-A failed experiment is useful when it distinguishes competing explanations.
+Send a correction with the topic or finding ID, exact artifact or source
+revision, and evidence that changes the claim. Distinguish static analysis,
+hardware observation, source comparison, and inference. A negative result is
+useful when it rules out an explanation or identifies a concrete missing input.
 
 For hardware reports, include the model/board, kernel and driver revisions,
-firmware build when known, transition type, relevant configuration, observed
-outcome, and relative event timing. Follow the
-[investigation guide](docs/investigation-guide.md) when selecting log excerpts.
-Keep installation-specific identities and unrelated machine state out of the
-submission. Explain an observation in terms of its configuration instead of
-replacing identifying text with redaction markers.
+firmware build when known, transition type, relevant configuration, outcome,
+and relative event timing. Follow the
+[investigation guide](docs/method/investigation-guide.md) when choosing excerpts.
+Keep installation-specific identities, raw camera images, unrelated machine
+state, and firmware payloads out of contributions.
 
-Maintain both protocol and platform research here. Cross-link the relevant
-chapters when a dependency spans subjects. Product-specific authentication and
-desktop behavior belongs in t2touch, whose references pin a research revision.
+## Place findings by subject
 
-Run the repository checks after editing:
+Research lives under `docs/` by subsystem, with cross-cutting platform, power,
+and method references. Extend an existing chapter when it answers the same
+question. Create a narrowly named chapter when a reader needs a separate
+contract or evidence record. Research rounds and acquisition dates are
+provenance; they do not determine the directory hierarchy.
+
+Give each finding a stable ID in [findings.json](catalog/findings.json). Add its topic
+membership and any new aliases, document routes, or qualified relationships
+to [research-map.json](catalog/research-map.json). Include both Linux-facing
+names and names found in firmware or investigation logs. Do not treat aliases
+as proof that two implementations or devices are equivalent.
+
+Keep build, board, observation date, evidence type, and residual limits next to
+the claim. Update affected older explanations when new evidence changes them;
+date historical observations instead of silently turning them into current
+support claims. A complete static investigation can still require runtime
+qualification or a missing artifact.
+
+## Check the collection
+
+After changing a catalog or its linked chapters, regenerate the human maps and
+run the structural checks:
 
 ```sh
-python3 -m unittest discover -s tests -v
-python3 examples/encode_identity.py
-python3 scripts/verify.py
+python3 catalog/research.py build
+python3 catalog/check_research.py
+python3 -m unittest discover -s catalog/tests -v
 ```
 
-The checks validate document links, findings references, board data, artifact
-hash syntax, and common privacy hazards. They do not replace a technical or
-privacy review. Changes to the board data must agree with the readable table.
+The checks validate references and anchors, finding/topic coverage, board data,
+generated-map consistency, ASCII JSON encoding, and common privacy hazards. They do
+not establish technical correctness or hardware support. If reference code
+changes, also run the [appendix checks](reference-code/README.md#validation).
+
+Consult the [catalog guide](catalog/README.md) before changing its schema or
+moving a document. Preserve finding IDs and update all affected references;
+keep one maintained copy of each analysis.
