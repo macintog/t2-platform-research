@@ -7,6 +7,9 @@ hardware results distinguish reachable behavior from a mistaken static reading.
 
 ## Firmware identities
 
+The [shared platform artifact reference](../artifacts-and-method.md#firmware-identities)
+records the IPSW and BuildManifest hashes. The additional SEP inputs are:
+
 The target firmware is bridgeOS 10.6 build `23P6068`, J152fAP. The analyzed
 RecoveryOS host binaries come from RecoveryOS 26.6.2 build `25G83`. A further
 host biometric reference comes from macOS 15.7.9 build `24G830`. These are
@@ -14,8 +17,6 @@ different artifacts, not three names for the installed T2 firmware.
 
 | Artifact | SHA-256 |
 | --- | --- |
-| bridgeOS IPSW | `da1ce0198ee23d38a6d065e296fed3f302ff79b196c14107ab59ea191028206a` |
-| BuildManifest | `8c9b5d0a2440dd6794bde7bd65303ec9a53093dd44a809684e1a90162f3f64e3` |
 | `sep-firmware.j152f.RELEASE.im4p` | `bc21098b1c4fa98d20974e55ebeebdf219294caf07db3ab3af3db7882b60be92` |
 | Decrypted SEP payload | `1b29e87948c08ddd49a35137e8857892f7c5101fbe1de988dac357a9fa7cf66f` |
 | Reconstructed `sks` Mach-O | `57178e6692f2599110eee5a01da24629cd2d5eacf474df09c53a0ae704f7bacd` |

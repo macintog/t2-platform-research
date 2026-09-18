@@ -2,8 +2,9 @@
 
 Protocol codecs alone do not provide a usable fingerprint service. An
 integrator must also own account activation, persistent state, authorization,
-client lifetime, and recovery. t2touch implements those layers; t2touch-mini
-contains only the identity request codecs and activation-bundle storage.
+client lifetime, and recovery. t2touch implements those layers. The reference
+modules in this project provide identity request codecs and activation-bundle
+storage.
 
 ## Account authority and the current identity set
 
@@ -97,4 +98,4 @@ Test the whole graphical transition: authentication must return to a responsive
 desktop, and failure must leave password fallback and recovery usable. Device
 selection must follow connected displays and explicit user configuration, not
 fixed card numbers or a preferred GPU vendor. These are integration duties;
-the three mini codecs/storage modules implement none of this desktop policy.
+the three reference modules leave desktop policy to the integrator.

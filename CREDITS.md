@@ -28,3 +28,26 @@ The [research reference](docs/research/README.md) describes the SEP structure an
 protocol findings in original prose under MIT. Its
 [artifact and tool credits](docs/research/artifacts-and-method.md) identify the
 firmware builds and analysis tools used.
+
+## Platform research
+
+The platform references were assembled by macintog using Codex, including
+signed-artifact analysis and Linux experiments. They extend the protocol work
+with board inventories and power-management analysis.
+
+- [t2linux](https://github.com/t2linux) supplies kernel/distribution context,
+  hardware guidance, and the field reports cited in the platform chapters.
+- [deqrocks/t2bce](https://github.com/deqrocks/t2bce) supplies the Linux BCE,
+  virtual USB, and audio implementation compared here.
+- [Apple's published XNU](https://github.com/apple-oss-distributions/xnu)
+  supplies message definitions and platform-action ordering code.
+- [The Apple Wiki](https://theapplewiki.com/wiki/T2) supplies the secondary
+  mapping from firmware identities to Mac model names.
+- [ipsw](https://github.com/blacktop/ipsw),
+  [radare2](https://github.com/radareorg/radare2),
+  [7-Zip](https://www.7-zip.org/), and
+  [ACPICA](https://github.com/acpica/acpica) supported image inspection,
+  disassembly, APFS extraction, and ACPI interpretation.
+
+External reports establish observations for their stated configurations.
+Referenced projects and artifacts retain their own licenses and attribution.

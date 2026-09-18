@@ -4,19 +4,7 @@ These notes describe how Linux created its own T2 account identity, enrolled
 fingerprints, and restored them after reboot. They cover the Secure Enclave
 services, wire formats, and persistent state behind that result.
 
-## Parallel publication
-
-This research bundle is published in both t2touch and t2touch-mini. A fact that
-belongs in mini's protocol-reference scope must be applied to the same relative
-file in both repositories; product-only material belongs outside this directory.
-The two `docs/research` trees remain byte-identical, including their file lists.
-From either checkout, verify the paired working trees with:
-
-```bash
-python3 scripts/check-doc-parallelism.py --other ../t2touch-mini
-```
-
-Use `--other ../t2touch` when running from t2touch-mini.
+## Read the protocol references
 
 | Read | For |
 | --- | --- |
@@ -26,7 +14,8 @@ Use `--other ../t2touch` when running from t2touch-mini.
 | [Fingerprint lifecycle](fingerprint-lifecycle.md) | First enrollment, Catacomb construction, restore, matching, and deletion. |
 | [Integration contracts](integration-contracts.md) | Account authority, stable names, interrupted-operation recovery, and client ownership. |
 | [Artifacts and method](artifacts-and-method.md) | Firmware identities, analysis tools, and ways to reproduce the findings. |
-| [Findings index](findings.json) | Machine-readable entry points into the same explanations. |
+| [Create-v4 on J214K](create-v4-j214k.md) | The earlier identity-create layout and its reported qualification. |
+| [Combined findings index](../../findings.json) | Machine-readable entry points into the same explanations. |
 
 ## Scope
 
@@ -44,13 +33,18 @@ firmware build to which its layouts and findings apply.
 
 The Mac continues to run Apple's bridgeOS and SEP firmware. Broader hardware,
 multiple users, suspend recovery, and persistence across a macOS boot require
-separate qualification. These references do not make t2touch-mini an end-user
-driver or guarantee compatibility with untested firmware.
+separate qualification. The reference modules require a hardware integration; compatibility with
+untested firmware remains unqualified.
 
 ## Reuse
 
-This directory is available under the [MIT license](LICENSE) in both t2touch and
-t2touch-mini. The notes are original explanations of the research findings.
+This research is available under the [MIT license](../../LICENSE). The notes are original explanations of the research findings.
 Each reference names the tested or analyzed build where that affects the result.
 Protocol identifiers belong to their stated interface: an AKS operation number, a BiometricKit command, and an
 internal SEP service handle can have the same value without naming the same thing.
+
+## Platform dependencies
+
+[Platform architecture](../platform-architecture.md) maps the host and firmware
+boundaries. [Power management](../power-management.md#sep-and-persistent-clients)
+explains the SEP/xART dependencies relevant to sleep and shutdown.
